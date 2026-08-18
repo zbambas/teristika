@@ -1,0 +1,62 @@
+# git-seeder metadata — do not edit manually unless you know what you're doing
+version: "1"
+
+# Identity
+id: 9c133a87-cbf6-4610-8cdc-b3462c814211
+name: dracoly
+display_name: ""
+description: "simple mind experiment"
+
+# Provenance
+created_at: 2026-08-18
+created_by: zbambas
+created_on: "MacBookProZdenek.local (35b66182)"
+profile: ""
+
+# Hosting
+provider: github
+provider_url: ""
+clone_url: "https://github.com/zbambas/dracoly.git"
+
+# Template
+is_template: false
+template: Empty
+language: ""
+
+# Classification
+type: other
+status: active
+maturity: ""
+domain: other
+group: ""
+tags: []
+
+# Legal
+license: ""
+
+# Discovery
+docs_url: ""
+related: []
+
+# Encryption (Feature 25)
+encryption:
+  enabled: false
+  algorithm: aes-256-gcm
+  key_id: ""
+  exclude: []
+
+# Collaborators (Feature 26)
+collaborators: []
+
+# AI-generated fields (Feature 21)
+llm_summary: ""
+llm_keywords: []
+
+# Lineage
+obsolete: false
+migrations: []
+
+# Audit
+updated_at: 2026-08-18
+updated_by: zbambas
+updated_on: "MacBookProZdenek.local (35b66182)"
