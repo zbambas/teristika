@@ -19,7 +19,7 @@ An approved plan executes durably and can be rerun without duplicate Jira resour
 
 ## Success Criteria
 
-- [ ] Tasks P03-T01 through P03-T08 are Done.
+- [ ] Tasks P03-T01 through P03-T09 are Done.
 - [ ] A clean sandbox deployment succeeds and verifies its resources.
 - [ ] Rerunning the same blueprint reports all supported resources unchanged.
 

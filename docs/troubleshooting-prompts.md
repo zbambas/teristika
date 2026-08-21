@@ -105,6 +105,12 @@ Diagnose unexpected 404 for {PATH}. Use Django URL resolution to distinguish mis
 For {METHOD} {PATH}, diagnose the unexpected authentication, 403, or CSRF result. Invoke Senior Security Specialist and Senior QA. Distinguish anonymous authentication, missing role permission, object-level target authorization, CSRF token or origin failure, and deliberate resource hiding. Verify no state change occurred on denial. Fix the narrow policy or request flow and test anonymous plus viewer, operator, approver, and administrator roles.
 ```
 
+### Diagnose User Effective Access or Revocation
+
+```text
+Diagnose access mismatch {USER_OR_SUBJECT} for {ACTION_OR_SCOPE}. Invoke Senior Security Specialist and Senior QA. Trace trusted issuer and subject, provider status, group-claim refresh, group mappings, direct assignments, start and expiry, suspension, session-revocation version, role, connection scope, project scope, and last-administrator guard. Do not identify users by email alone. Verify deny-by-default behavior and reproduce with a fresh session after any revocation.
+```
+
 ### Diagnose Django Form Validation
 
 ```text
@@ -201,6 +207,12 @@ Diagnose Redis or target-lock failure {ERROR}. Determine whether broker delivery
 Diagnose Jira {401|403} for {METHOD} {ENDPOINT}. Invoke Senior Security Specialist. Compare the connection identity, approved auth method, token status, OAuth scopes, Jira product permissions, project permissions, and capability matrix. Do not print or rotate credentials through chat. Distinguish authentication from authorization, sanitize evidence, and update capability claims only after a verified sandbox result.
 ```
 
+### Diagnose Candidate Credential Test or Activation
+
+```text
+Diagnose staged credential failure {ERROR} for connection {CONNECTION_ID}. Invoke Senior Security Specialist and Senior QA. Compare candidate secret-store reference and version, expiry, tested checksum, target site, identity, scopes, Jira permissions, rate limit, and activation transaction without reading or printing the secret. Verify a failed, expired, or stale candidate cannot change the active reference. Re-run with a seeded fake secret and confirm redacted audit evidence.
+```
+
 ### Diagnose Jira 404 or Wrong Resource
 
 ```text
@@ -237,6 +249,12 @@ Diagnose missing or duplicated Jira resources from {ENDPOINT}. Trace start offse
 
 ```text
 Diagnose blueprint failure {ERROR} using docs/blueprint-contract.md, the JSON Schema, and the example blueprint. Distinguish YAML or JSON syntax, envelope schema, unknown key, typed resource property, duplicate logical ID, and unsupported apiVersion. Preserve strict unknown-property rejection. Return the exact document path and smallest valid correction, then validate schema and typed resources.
+```
+
+### Diagnose Reference-Project Capture Mismatch
+
+```text
+Diagnose captured blueprint mismatch for {CAPTURE_ID_OR_PROJECT}. Compare the tested connection, project identity, capability matrix, discovery snapshot, pagination, normalized Jira resources, classifications, selected and omitted source IDs, shared-resource decisions, generated logical IDs, parameters, dependency edges, provenance, and validator findings. Do not mutate Jira or copy secrets and issue data. Prove determinism by regenerating from the same normalized snapshot and decisions.
 ```
 
 ### Diagnose Parameter Resolution
@@ -299,6 +317,18 @@ Diagnose test-data cleanup for run {RUN_ID}. Invoke Senior Security Specialist a
 
 ```text
 Diagnose batch {JOB_ID}, planned {PLANNED_COUNT}, observed {OBSERVED_COUNT_OR_RESULT}. Compare frozen JQL, target fingerprint, pagination, maximum count, per-issue checkpoint, rate limit, retries, cancellation, and failure threshold. Do not rerun the whole batch blindly. Identify exactly which issue IDs are complete, failed, or unattempted and verify safe resumption.
+```
+
+### Diagnose Incomplete Offline Snapshot
+
+```text
+Diagnose offline sync {SYNC_RUN_ID} or snapshot {SNAPSHOT_ID}. Invoke Senior Data Modeler and Database Specialist, Senior Security Specialist, and Senior QA. Inspect enabled entity domains, pagination, durable checkpoints, tombstones, permission changes, attachment policy, rate limits, storage quota, manifest counts, and terminal outcomes. Do not mark a partial snapshot complete or delete the last complete permitted snapshot. Resume from the first incomplete checkpoint and verify manifest integrity and search indexing.
+```
+
+### Diagnose Offline Search or Freshness Mismatch
+
+```text
+Diagnose offline search mismatch {QUERY_OR_ENTITY}. Prove the selected Online, Automatic, or Offline mode and capture snapshot ID, boundary, completeness, freshness, authorization scope, search document, and source label. In Offline mode deny Jira network access and compare normalized repository entities with PostgreSQL full-text index results. Repair indexing or source selection without silently querying Jira, then verify stale, hidden, purged, and partial-visibility cases.
 ```
 
 ## Security and Audit

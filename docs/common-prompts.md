@@ -155,6 +155,30 @@ Evaluate this blueprint change: {CHANGE}. Read docs/blueprint-contract.md, schem
 Execute the Phase 00 task {ISSUE_ID} against the approved Jira Cloud sandbox using only documented APIs. Never place credentials in prompts, files, logs, or fixtures. Record sanitized request metadata, response classification, permissions, scopes, cleanup result, and capability disposition. Update the capability matrix only with verified evidence and do not infer support from documentation alone.
 ```
 
+### Review Jira Credential Rotation
+
+```text
+For {ISSUE_ID}, ask Senior Security Specialist and Senior QA to verify the staged Jira credential flow. Confirm the secret value goes directly to the external secret store, never appears in application persistence or diagnostics, candidate testing is read-only and classified, failed testing preserves the active reference, and only the exact successfully tested candidate can be explicitly activated. Use seeded fake tokens, not production credentials.
+```
+
+### Review Offline Repository
+
+```text
+For {ISSUE_ID}, ask Senior Security Specialist, Senior Data Modeler and Database Specialist, and Senior QA to verify offline synchronization and browsing. Confirm the manifest records scope, counts, omissions, failures, attachment policy, and completeness; partial snapshots are hidden; Offline mode denies every Jira request; local search uses only authorized encrypted repository data; and retention, purge, quota, backup, and restore preserve the last complete permitted snapshot.
+```
+
+### Review User and Access Management
+
+```text
+For {ISSUE_ID}, ask Senior Security Specialist, Senior Data Modeler and Database Specialist, and Senior QA to verify application access governance. Confirm issuer plus subject identifies users, production has no local password, group and direct assignments are scoped and time-aware, effective access denies by default, suspension and session revocation take effect within policy, the final administrator is protected, and access-review decisions are attributable and redacted.
+```
+
+### Review Blueprint Capture from Jira
+
+```text
+For {ISSUE_ID}, ask Senior Security Specialist and Senior QA to verify reference-project capture. Confirm only a tested connection and capability-approved read endpoints are used; project-owned, shared, reference-only, unsupported, inaccessible, ambiguous, and omitted resources are explicit; generated logical IDs and parameters are portable and deterministic; Jira IDs remain provenance; secrets and issue data are excluded; and the result is an unpublished draft that must pass normal validation.
+```
+
 ## Reporting
 
 ### Concise Delivery Status

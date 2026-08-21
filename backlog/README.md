@@ -55,12 +55,12 @@ Stories use the same structure as tasks. Their work lists phase capabilities, an
 | Phase | Story | Goal |
 | --- | --- | --- |
 | 00 | [P00-S01](phase-00-capability/P00-S01-jira-capability-proof.md) | Prove Jira Cloud API capabilities |
-| 01 | [P01-S01](phase-01-foundation/P01-S01-django-foundation.md), [P01-S02](phase-01-foundation/P01-S02-operator-workspace.md) | Establish the Django foundation and operator workspace |
-| 02 | [P02-S01](phase-02-planning/P02-S01-read-only-planning.md) | Produce explainable dry-run plans |
+| 01 | [P01-S01](phase-01-foundation/P01-S01-django-foundation.md), [P01-S02](phase-01-foundation/P01-S02-operator-workspace.md), [P01-S03](phase-01-foundation/P01-S03-user-access-management.md) | Establish the Django foundation, operator workspace, and access governance |
+| 02 | [P02-S01](phase-02-planning/P02-S01-read-only-planning.md), [P02-S02](phase-02-planning/P02-S02-blueprint-authoring.md), [P02-S03](phase-02-planning/P02-S03-secure-jira-credentials.md), [P02-S04](phase-02-planning/P02-S04-capture-blueprint-from-jira.md) | Secure Jira access, capture or author blueprints, and produce explainable plans |
 | 03 | [P03-S01](phase-03-deployment/P03-S01-safe-deployment.md) | Execute durable, idempotent deployments |
 | 04 | [P04-S01](phase-04-configuration/P04-S01-configuration-catalog.md) | Deploy the required Jira configuration catalog |
 | 05 | [P05-S01](phase-05-validation/P05-S01-test-data-validation.md) | Seed test data and verify deployed behavior |
-| 06 | [P06-S01](phase-06-operations/P06-S01-batch-release.md) | Add batch operations, scheduling, and release controls |
+| 06 | [P06-S01](phase-06-operations/P06-S01-batch-release.md), [P06-S02](phase-06-operations/P06-S02-issue-dependency-explorer.md), [P06-S03](phase-06-operations/P06-S03-offline-jira-repository.md) | Add operations, dependency exploration, and secure offline browsing |
 
 ## Global Done Rules
 

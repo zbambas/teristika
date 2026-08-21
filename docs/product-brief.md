@@ -69,6 +69,10 @@ The application can load, validate, version, and display declarative project blu
 - filters and dashboards where supported by public APIs;
 - validation rules, test-data packs, and batch definitions.
 
+Authorized configuration owners can create a blueprint, clone a published version into a draft, edit through structured forms or raw YAML/JSON, validate the draft, and publish a new immutable version. Editing never changes an existing published version.
+
+An uploaded YAML or JSON file is validated before import. Findings distinguish syntax, schema, typed-property, identifier, parameter, reference, dependency, and cycle issues and include severity, code, document path, line and column when available, message, and remediation. Errors block import and publication.
+
 The existing `ErsteJiraSetUp.smmx` content is source material for the first blueprint, especially its issue types, statuses, fields, priorities, components, and requirement/test/deployment issue models. The SimpleMind file is not the deployment format.
 
 ### FR-03: Deployment Planning
@@ -127,9 +131,75 @@ Every issue batch shows a preview count and sample before approval. It has a con
 
 Users can view queued, running, completed, failed, canceled, and partially completed jobs. Supported steps can be retried from the failed point. New mutations stop after cancellation is acknowledged.
 
+Within a job, an authorized user can inspect Jira API attempts in chronological order. Each call shows its owning step, method, endpoint, attempt, duration, transport or HTTP status, and bounded sanitized request and response details.
+
 ### FR-10: Audit and Evidence
 
 The application records the actor, target, blueprint and version, selected components, generated plan, approvals, timestamps, step outcomes, redacted API diagnostics, and final validation report. A user can export a run summary as JSON and human-readable HTML or PDF.
+
+### FR-11: Issue Dependency Exploration
+
+A user can inspect issue relationships within one Jira project using a shared, permission-scoped dataset. The application provides:
+
+- a Gantt representation for dates, estimates, dependency order, and critical path;
+- a radial or star representation centered on one issue and its immediate neighborhood;
+- a directional network representation for end-to-end dependency flow;
+- a dependency matrix for dense row and column comparison;
+- shared project, issue type, status, and relationship filters;
+- issue and relationship detail that remains consistent across representations.
+
+The explorer is read-only. It reports cycles, missing dates, hidden issues, partial visibility, and result limits instead of inventing data.
+
+### FR-12: Secure Jira Credential Settings
+
+An administrator can add, test, rotate, and disable Jira API-token or OAuth credentials from Settings. The application:
+
+- sends a newly entered value over TLS directly to an external secret store;
+- stores only secret reference, provider version, safe fingerprint, status, actor, and timestamps in PostgreSQL;
+- never returns an active secret value to the browser;
+- tests an expiring staged candidate against capability-approved Jira identity, site, scope, permission, and representative read endpoints;
+- classifies invalid credential, insufficient scope, insufficient permission, wrong site, rate limit, timeout, and Jira-unavailable results;
+- requires explicit confirmation before activating a successfully tested candidate;
+- keeps the active credential unchanged when candidate testing or activation fails;
+- audits credential lifecycle actions without recording the secret.
+
+### FR-13: Offline Jira Repository
+
+An authorized user can synchronize Jira data and browse or search it when Jira is unavailable or Offline mode is explicitly selected. "Offline" means disconnected from Jira while the Django application and its repository remain available.
+
+The repository synchronizes all data exposed by supported public Jira APIs and visible to the configured identity for selected sites and projects. This includes project configuration, issues, fields, links, comments, worklogs, changelog, users or account references, boards, sprints, attachment metadata, and attachment content when policy permits it. A versioned manifest reports entity counts, snapshot boundary, completeness, failures, inaccessible data, unsupported APIs, and attachment policy.
+
+Access modes are:
+
+- Online: live Jira reads are allowed;
+- Automatic: live Jira is preferred and a complete snapshot is used only through a visible freshness policy;
+- Offline: Jira requests are blocked and browse/search uses only a selected complete snapshot.
+
+Offline access is read-only. It never queues, replays, or implies a Jira mutation. Results always show source, snapshot time, scope, completeness, and freshness.
+
+### FR-14: User and Access Management
+
+The application authenticates production users through a trusted OIDC provider and governs application authorization. It does not create local production passwords, manage MFA, create an Atlassian account, or edit Jira users.
+
+Administrators can:
+
+- synchronize trusted issuer, subject, display metadata, provider state, and group claims;
+- map OIDC groups to viewer, operator, approver, or administrator roles;
+- scope viewer, operator, and approver assignments to Jira connections or projects;
+- create time-bounded direct exceptions with owner, reason, start, and expiry;
+- inspect each user's effective access, assignment source, group memberships, last sign-in, sessions, and security activity;
+- suspend application access and revoke active application sessions without modifying the OIDC or Atlassian account;
+- run periodic access reviews and certify, modify, or revoke privileged and direct assignments.
+
+Authorization is deny by default. Issuer plus provider subject identifies a user; email is display metadata and may change. The application prevents removal of the final active global administrator path.
+
+### FR-15: Capture Blueprint from Jira Project
+
+An authorized configuration owner can select a tested Jira connection and reference project, discover its supported configuration through read-only APIs, and generate a new blueprint draft.
+
+Before draft creation, the application classifies project-owned, shared, reference-only, unsupported, inaccessible, ambiguous, and policy-omitted resources. The user explicitly selects resources and shared-resource behavior. The transformation generates deterministic portable logical IDs, inferred dependencies, and parameters for environment-specific values. Jira IDs remain provenance or mapping metadata rather than portable logical IDs.
+
+The draft records source connection, Jira project ID and key, discovery snapshot, capture time, actor, selected and omitted source items, and transformation warnings. It opens in the Blueprint Editor and must pass normal validation before publication. Capture never mutates Jira or publishes automatically.
 
 ## 6. Core User Journeys
 
@@ -143,6 +213,15 @@ The application records the actor, target, blueprint and version, selected compo
 6. Follow live progress and inspect any failed step.
 7. Run the default post-deployment validation suite.
 8. Export the run report.
+
+### Author or Upload a Blueprint
+
+1. Create a draft, clone an existing version, or upload YAML or JSON.
+2. Edit structured sections or raw source while preserving stable logical IDs.
+3. Run syntax, schema, resource, parameter, reference, and dependency validation.
+4. Select a finding to open its affected field or source location.
+5. Resolve errors and acknowledge policy-controlled warnings.
+6. Confirm publication of a new immutable version.
 
 ### Deploy Selected Configuration
 
@@ -167,12 +246,59 @@ The application records the actor, target, blueprint and version, selected compo
 3. Review and enable the schedule.
 4. Inspect drift findings and acknowledge or remediate them.
 
+### Explore Project Issue Dependencies
+
+1. Open a project and select Issue dependencies.
+2. Filter the project issues and relationship types.
+3. Switch among Gantt, radial, network, and matrix representations.
+4. Select an issue or relationship and inspect its consistent detail.
+5. Export or share the current read-only view when permitted.
+
+### Rotate a Jira API Token
+
+1. Open Settings and select the Jira connection.
+2. Review active secret-store metadata without seeing the token value.
+3. Enter a replacement token as an expiring candidate.
+4. Test the candidate identity, site, scopes, permissions, and representative reads.
+5. Resolve any classified failure while the current credential remains active.
+6. Explicitly confirm activation of the tested candidate.
+7. Review the redacted audit event and new secret-store version.
+
+### Synchronize and Browse Offline Data
+
+1. Configure selected connections, projects, retention, attachment policy, schedule, and storage quota.
+2. Run a full synchronization and inspect its completeness manifest.
+3. Run incremental synchronization to apply additions, updates, and tombstones.
+4. Select Offline mode and verify that Jira calls are blocked.
+5. Browse or search the complete snapshot and inspect source and freshness on every result.
+6. Switch Online or Automatic only through an explicit mode change.
+
+### Govern Application Access
+
+1. Synchronize users and groups from the trusted OIDC provider.
+2. Map provider groups to application roles and connection or project scopes.
+3. Review a user's effective assignments and their group or direct source.
+4. Preview and save a time-bounded direct exception when justified.
+5. Revoke sessions or suspend application access when required.
+6. Complete periodic access review decisions with attributable evidence.
+
+### Capture a Blueprint from Jira
+
+1. Select a tested Jira connection and reference project.
+2. Run read-only discovery and inspect its snapshot and API coverage.
+3. Review project-owned, shared, unsupported, inaccessible, ambiguous, and omitted resources.
+4. Select resources, shared behavior, and parameterization rules.
+5. Generate a provenance-linked mutable draft.
+6. Validate and edit the draft before explicitly publishing an immutable version.
+
 ## 7. MVP Acceptance Criteria
 
 The MVP is complete when all of the following are demonstrated against a Jira Cloud sandbox:
 
 - A user can connect one site without exposing credentials in logs or the database.
 - A valid blueprint can create one company-managed Jira project.
+- A configuration owner can create or clone a draft, validate it, and publish a new immutable version without changing its source version.
+- An invalid uploaded blueprint reports location-aware issues and cannot be imported or published.
 - The project deployment supports at minimum project metadata, issue types, statuses and workflows, custom fields, screens, components, versions, and scheme association where the Jira API permits it.
 - The planner reports unsupported configuration instead of silently skipping it.
 - A user can select a subset and see all added dependencies before approval.
@@ -181,6 +307,15 @@ The MVP is complete when all of the following are demonstrated against a Jira Cl
 - A validation report identifies a deliberately introduced field, workflow, or component mismatch.
 - A JQL-selected issue batch can be previewed, capped, executed, retried, and audited.
 - A scheduled validation runs without an active browser session.
+- A job displays every Jira API attempt with its status and sanitized response while preserving retry order.
+- One project dependency dataset renders consistently as Gantt, radial, network, and matrix views.
+- An invalid staged Jira token cannot replace the active credential; a valid token requires successful testing and explicit activation.
+- Credential values do not appear in the application database, browser storage, logs, jobs, fixtures, diagnostics, audit, or exports.
+- A complete offline snapshot contains every supported and authorized enabled entity or reports its omission in the manifest.
+- Offline-mode browsing and search succeed while all Jira network requests are denied and clearly identify repository source and snapshot freshness.
+- OIDC group removal, assignment expiry, suspension, and session revocation stop authorizing within their configured bounds and reveal no unauthorized scope.
+- The final active administrator path cannot be removed, expired, or self-suspended.
+- A reference Jira project can generate a deterministic draft with explicit shared, unsupported, inaccessible, and omitted configuration and no Jira mutation.
 - Concurrent writes to the same Jira project are serialized.
 - An interrupted worker resumes or safely retries without losing job state.
 
@@ -188,6 +323,7 @@ The MVP is complete when all of the following are demonstrated against a Jira Cl
 
 - Security: least-privilege Jira access, encrypted transport, external secret storage, role-based application access, redacted logs, and no secret values in exports.
 - Reliability: idempotency keys, bounded retries with backoff, durable job state, and per-target locking.
+- Offline data: encryption at rest, explicit completeness and freshness, permission-scoped search, incremental synchronization, tombstones, quotas, retention, purge, and verified recovery.
 - Performance: plan 1,000 configuration resources in under 60 seconds, excluding Jira throttling; process issue batches at a configurable safe rate.
 - Usability: every mutation has a preview; errors name the affected resource and a corrective action; progress is visible without refreshing the page.
 - Maintainability: Jira-specific API behavior is isolated behind an adapter and capabilities are data-driven.
@@ -203,6 +339,7 @@ The MVP is complete when all of the following are demonstrated against a Jira Cl
 - Deleting production configuration to force exact reconciliation.
 - Executing arbitrary user-supplied code or unrestricted Jira REST requests.
 - Providing a general-purpose Jira backup or disaster-recovery system.
+- Queueing Jira changes while Offline mode is active.
 
 ## 10. Later Candidates
 

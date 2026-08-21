@@ -12,6 +12,35 @@ The deployment input is a YAML or JSON document validated by [`jira-project-blue
 
 Logical IDs use lowercase letters, numbers, dots, and hyphens. Examples are `issue-type.requirement` and `workflow.requirement`.
 
+## Draft and Publication Lifecycle
+
+- A new blueprint or clone is stored as a mutable draft owned by its author.
+- An uploaded YAML or JSON file is parsed into a draft candidate only after upload and content validation.
+- Structured and raw-source editor modes represent the same parsed document and must round-trip without changing stable logical IDs or semantics.
+- Any content change invalidates the previous validation result.
+- Errors block import and publication. Warnings require acknowledgement when policy says so.
+- Publication requires an unused version and creates a new immutable `blueprint_versions` record with its canonical checksum.
+- A published version is never edited in place. Further changes begin by cloning it into another draft.
+- Draft content cannot be selected by a deployment plan.
+
+Validation findings include a stable code, severity, document path, line and column when available, message, remediation, and logical resource reference. Findings and logs must redact configured sensitive values.
+
+## Capture from Jira
+
+A blueprint can begin as a draft generated from one tested Jira connection and reference project. Capture uses capability-approved read-only APIs and follows these rules:
+
+- every observed resource is classified as project-owned, shared, reference-only, unsupported, inaccessible, ambiguous, or policy-omitted before draft creation;
+- the author explicitly selects included resources and shared-resource behavior;
+- deterministic logical IDs derive from resource type and normalized stable meaning, not Jira object IDs;
+- Jira IDs, connection ID, project ID and key, discovery boundary, actor, selected source items, omitted source items, and warnings are stored as application provenance outside portable deployment content;
+- project key, name, lead, and other approved environment-specific values become explicit parameters;
+- secrets, credential references, users, issue data, and unsupported properties are not copied into the blueprint;
+- handler-inferred dependencies are added and shown as automatic additions;
+- unresolved ambiguity and validation errors block draft creation;
+- generated content is a mutable draft and must complete normal validation and explicit publication.
+
+Equivalent normalized Jira state and capture decisions must produce equivalent canonical blueprint content.
+
 ## Parameters
 
 Parameters contain environment-specific non-secret values such as project key, project name, and lead account ID. A scalar string can contain an exact placeholder such as `{{ parameters.projectKey }}`. The implementation must use a restricted placeholder resolver, not a general template or expression engine.

@@ -35,16 +35,25 @@ Goal: connect a site, ingest a blueprint, and produce an explainable plan withou
 | --- | --- | --- | --- | --- |
 | FND-01 | P0 | M | Scaffold Django modular monolith | Local environment starts Django web, Celery worker, Celery Beat, PostgreSQL, and Redis with one documented command |
 | FND-02 | P0 | M | Add OIDC-ready user and role model | Local development login works; route policies distinguish viewer, operator, approver, and administrator |
+| P01-T08 | P0 | M | Synchronize OIDC identities | Trusted issuer/subject and group claims update identities without local production passwords |
+| P01-T09 | P0 | L | Manage scoped roles and groups | Group mappings and direct exceptions produce previewable global, connection, and project access |
+| P01-T10 | P0 | L | Review and revoke user access | Administrators inspect effective access, revoke sessions, suspend access, and certify assignments |
 | CON-01 | P0 | M | Manage Jira connection metadata | Administrator can add a site and secret reference, test it, and see a redacted result |
 | CON-02 | P0 | L | Discover Jira capabilities | UI distinguishes supported, permission-denied, API-unavailable, and adapter-not-implemented capabilities |
+| P02-T10 | P0 | M | Build Jira credential settings | Administrator stages secret values directly in the external secret store and sees metadata only |
+| P02-T11 | P0 | M | Test and rotate Jira credentials | Candidate access is classified and only an explicitly confirmed tested version can activate |
+| P02-T12 | P0 | L | Discover reference Jira project | Selected project configuration is read and classified without Jira mutation |
+| P02-T13 | P0 | L | Generate blueprint draft from Jira | Selected normalized resources become portable logical IDs, dependencies, parameters, and provenance |
 | BLP-01 | P0 | M | Parse and schema-validate blueprints | Example blueprint loads; invalid keys and unresolved parameters produce location-aware errors |
 | BLP-02 | P0 | M | Add typed resource validation | Unknown resource properties, duplicate logical IDs, and dangling references are rejected |
 | PLN-01 | P0 | L | Build dependency graph and selection expansion | Selecting a workflow includes required statuses and explains each dependency path |
 | PLN-02 | P0 | L | Discover and normalize target state | Fake adapter and sandbox adapter produce the same domain representation from fixtures |
 | PLN-03 | P0 | L | Generate immutable dry-run plan | Plan classifies create, update, unchanged, conflict, unsupported, and blocked operations |
 | UI-01 | P0 | L | Build configuration selection and plan review | User can select resources, inspect added dependencies, filter outcomes, and see blockers |
+| P02-T08 | P0 | L | Build blueprint editor | Configuration owners create or clone drafts, edit structured or raw content, and publish new immutable versions |
+| P02-T09 | P0 | M | Build blueprint validation review | Uploaded YAML/JSON shows location-aware issues and errors block import and publication |
 
-Exit criterion: an operator can produce and approve a stable read-only plan for the example blueprint against the sandbox.
+Exit criterion: administrators can govern scoped OIDC access and safely rotate Jira credentials; a configuration owner can author, upload, or capture and validate a blueprint version; and an operator can produce and approve a stable read-only plan for the example blueprint against the sandbox.
 
 ## Milestone 2: Safe Deployment Slice
 
@@ -63,6 +72,7 @@ Start with the smallest capability-proven set, expected to be project metadata a
 | DEP-04 | P0 | M | Enforce plan approval and staleness checks | Unapproved, changed, or stale plans cannot execute |
 | UI-02 | P0 | M | Show live execution progress | Browser shows job and step state with reconnect-safe updates and actionable failures |
 | AUD-01 | P0 | M | Record baseline audit events | Connection tests, plans, approvals, mutations, cancellations, and results are attributable |
+| P03-T09 | P0 | M | Inspect Jira API calls | Job detail lists every ordered attempt with status and bounded sanitized request and response detail |
 
 Exit criterion: the same approved blueprint can deploy to a clean sandbox and rerun with all supported resources classified unchanged.
 
@@ -115,8 +125,13 @@ Goal: run safe issue operations and unattended validation.
 | SCH-02 | P0 | M | Prevent overlapping target writes | Overlap policy queues, skips, or rejects a run and records the reason |
 | RPT-01 | P0 | M | Export run evidence | JSON and human-readable report exclude secrets and contain plan, actor, target, steps, and validation summary |
 | NTF-01 | P1 | M | Notify on completion and failure | Configured channel receives run link and bounded summary without sensitive Jira content |
+| P06-T09 | P0 | L | Build issue dependency dataset | Project-scoped issue nodes and typed relationships are normalized, bounded, and permission-filtered |
+| P06-T10 | P0 | L | Build issue dependency explorer | Gantt, radial, network, and matrix views share filters, selection, counts, and accessible detail |
+| P06-T11 | P0 | XL | Build offline Jira synchronization | Full and incremental sync create complete manifests, tombstones, search data, and permitted encrypted attachments |
+| P06-T12 | P0 | L | Build offline browse and search | Online, Automatic, and Offline modes expose source and freshness and Offline makes no Jira request |
+| P06-T13 | P0 | L | Govern offline data lifecycle | Encryption, current authorization, quotas, retention, purge, backup, restore, and audit are enforced |
 
-Exit criterion: a scheduled drift validation completes without a browser session, and a capped JQL batch can be previewed, approved, retried, and audited.
+Exit criterion: a scheduled drift validation completes without a browser session, a capped JQL batch can be previewed, approved, retried, and audited, one project dependency dataset is consistent across all four representations, and a complete offline snapshot can be searched with Jira network access denied.
 
 ## Milestone 6: MVP Hardening and Release
 
