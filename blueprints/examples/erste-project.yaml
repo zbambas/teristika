@@ -1,0 +1,241 @@
+apiVersion: jira-deployer/v1alpha1
+kind: JiraProjectBlueprint
+metadata:
+  id: erste-delivery-project
+  name: Erste Delivery Project
+  version: 0.1.0
+  description: Representative subset derived from ErsteJiraSetUp.smmx.
+  labels:
+    owner: delivery-governance
+
+parameters:
+  projectKey:
+    type: projectKey
+    description: Key for the target Jira project.
+    required: true
+    pattern: "^[A-Z][A-Z0-9]{1,9}$"
+  projectName:
+    type: string
+    description: Display name for the target Jira project.
+    required: true
+  leadAccountId:
+    type: jiraAccountId
+    description: Jira account ID of the project lead.
+    required: true
+
+spec:
+  resources:
+    - id: project.main
+      type: project
+      scope: project
+      properties:
+        key: "{{ parameters.projectKey }}"
+        name: "{{ parameters.projectName }}"
+        projectTypeKey: software
+        projectTemplateModuleKey: jira-software-scrum
+        leadAccountId: "{{ parameters.leadAccountId }}"
+
+    - id: issue-type.requirement
+      type: issueType
+      scope: global
+      properties:
+        name: Requirement
+        description: A business or platform requirement.
+        subtask: false
+
+    - id: issue-type.test
+      type: issueType
+      scope: global
+      properties:
+        name: Test
+        description: A test cycle or test execution record.
+        subtask: false
+
+    - id: issue-type.defect
+      type: issueType
+      scope: global
+      properties:
+        name: Defect
+        description: A defect found during validation.
+        subtask: false
+
+    - id: status.new
+      type: status
+      scope: global
+      properties:
+        name: New
+        category: new
+
+    - id: status.in-progress
+      type: status
+      scope: global
+      properties:
+        name: In Progress
+        category: indeterminate
+
+    - id: status.done
+      type: status
+      scope: global
+      properties:
+        name: Done
+        category: done
+
+    - id: workflow.requirement
+      type: workflow
+      scope: global
+      dependsOn:
+        - status.new
+        - status.in-progress
+        - status.done
+      properties:
+        name: Requirement Workflow
+        initialStatusRef: status.new
+        transitions:
+          - name: Start Progress
+            from: status.new
+            to: status.in-progress
+          - name: Complete
+            from: status.in-progress
+            to: status.done
+          - name: Reopen
+            from: status.done
+            to: status.in-progress
+
+    - id: field.entities
+      type: customField
+      scope: global
+      properties:
+        name: Entities
+        description: Organizational entities affected by the issue.
+        fieldType: multiSelect
+        options:
+          - "0196 (Holding)"
+          - "0198 (Erste Bank Oesterreich)"
+          - "4000 (Erste Group)"
+
+    - id: field-context.entities-project
+      type: fieldContext
+      scope: project
+      dependsOn:
+        - project.main
+        - field.entities
+        - issue-type.requirement
+        - issue-type.test
+        - issue-type.defect
+      properties:
+        name: Delivery Project Entities
+        fieldRef: field.entities
+        projectRefs:
+          - project.main
+        issueTypeRefs:
+          - issue-type.requirement
+          - issue-type.test
+          - issue-type.defect
+
+    - id: component.operating-model
+      type: component
+      scope: project
+      dependsOn:
+        - project.main
+      properties:
+        name: Operating Model
+        description: Operating model changes and governance.
+
+    - id: issue-type-scheme.main
+      type: issueTypeScheme
+      scope: project
+      dependsOn:
+        - project.main
+        - issue-type.requirement
+        - issue-type.test
+        - issue-type.defect
+      properties:
+        name: Delivery Project Issue Types
+        defaultIssueTypeRef: issue-type.requirement
+        issueTypeRefs:
+          - issue-type.requirement
+          - issue-type.test
+          - issue-type.defect
+        projectRef: project.main
+
+    - id: workflow-scheme.main
+      type: workflowScheme
+      scope: project
+      dependsOn:
+        - project.main
+        - workflow.requirement
+        - issue-type.requirement
+        - issue-type.test
+        - issue-type.defect
+      properties:
+        name: Delivery Project Workflows
+        defaultWorkflowRef: workflow.requirement
+        mappings:
+          issue-type.requirement: workflow.requirement
+          issue-type.test: workflow.requirement
+          issue-type.defect: workflow.requirement
+        projectRef: project.main
+
+  testDataPacks:
+    - id: smoke-requirement-flow
+      name: Requirement workflow smoke data
+      description: One linked requirement, test, and defect for sandbox validation.
+      issues:
+        - id: requirement.sample
+          issueTypeRef: issue-type.requirement
+          fields:
+            summary: Sample requirement
+            description: Generated by the Jira Project Deployer smoke pack.
+            components:
+              - Operating Model
+            Entities:
+              - "4000 (Erste Group)"
+        - id: test.sample
+          issueTypeRef: issue-type.test
+          fields:
+            summary: Validate the sample requirement
+            description: Generated test execution record.
+        - id: defect.sample
+          issueTypeRef: issue-type.defect
+          fields:
+            summary: Sample validation defect
+            description: Generated defect for link and workflow validation.
+      links:
+        - type: Tests
+          from: test.sample
+          to: requirement.sample
+        - type: Relates
+          from: defect.sample
+          to: test.sample
+
+  validationSuites:
+    - id: post-deployment
+      name: Post-deployment configuration checks
+      rules:
+        - id: project.matches
+          type: resourceMatches
+          severity: error
+          resourceRef: project.main
+        - id: requirement-workflow.matches
+          type: resourceMatches
+          severity: error
+          resourceRef: workflow.requirement
+        - id: requirement.createable
+          type: issueCreateable
+          severity: error
+          resourceRef: issue-type.requirement
+          config:
+            cleanup: true
+
+  batches:
+    - id: label-open-smoke-issues
+      name: Label open generated smoke issues
+      jql: 'project = "{{ parameters.projectKey }}" AND labels = "jira-deployer-test" AND statusCategory != Done'
+      action:
+        type: addLabels
+        labels:
+          - smoke-open
+      limits:
+        maxIssues: 100
+        ratePerMinute: 60
+        stopFailurePercent: 10

@@ -1,0 +1,2569 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jira Project Deployer - UI Mockup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+    <style>
+        :root {
+            --ink: #17211f;
+            --ink-soft: #52615d;
+            --canvas: #f5f7f3;
+            --surface: #ffffff;
+            --surface-alt: #edf1ec;
+            --line: #d7ddd7;
+            --line-strong: #b9c5bd;
+            --green: #146b4a;
+            --green-soft: #dff1e7;
+            --blue: #245ea8;
+            --blue-soft: #e6eef9;
+            --amber: #a35e0b;
+            --amber-soft: #fff0d6;
+            --red: #a33b35;
+            --red-soft: #f9e5e2;
+            --graphite: #202a28;
+            --sidebar: #192321;
+            --sidebar-muted: #aab7b2;
+            --shadow: 0 12px 28px rgba(23, 33, 31, 0.08);
+            --sidebar-width: 246px;
+            --topbar-height: 62px;
+            --radius: 6px;
+            --font-ui: "Manrope", sans-serif;
+            --font-mono: "IBM Plex Mono", monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            color-scheme: light;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-width: 320px;
+            min-height: 100vh;
+            color: var(--ink);
+            background-color: var(--canvas);
+            background-image:
+                linear-gradient(rgba(23, 33, 31, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(23, 33, 31, 0.025) 1px, transparent 1px);
+            background-size: 32px 32px;
+            font-family: var(--font-ui);
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button,
+        select,
+        input[type="checkbox"] {
+            cursor: pointer;
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible,
+        [tabindex="0"]:focus-visible {
+            outline: 3px solid rgba(36, 94, 168, 0.32);
+            outline-offset: 2px;
+        }
+
+        .skip-link {
+            position: fixed;
+            z-index: 1000;
+            top: 8px;
+            left: 8px;
+            padding: 8px 12px;
+            color: white;
+            background: var(--blue);
+            transform: translateY(-150%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .app-shell {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            z-index: 60;
+            inset: 0 auto 0 0;
+            display: flex;
+            width: var(--sidebar-width);
+            flex-direction: column;
+            overflow-y: auto;
+            color: white;
+            background: var(--sidebar);
+            border-right: 1px solid #34403d;
+        }
+
+        .brand {
+            display: flex;
+            min-height: var(--topbar-height);
+            align-items: center;
+            gap: 11px;
+            padding: 0 18px;
+            border-bottom: 1px solid #34403d;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 32px;
+            height: 32px;
+            flex: 0 0 32px;
+            place-items: center;
+            color: #17211f;
+            background: #b8edcf;
+            border-radius: 5px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .brand-copy {
+            min-width: 0;
+        }
+
+        .brand-name {
+            overflow: hidden;
+            font-size: 14px;
+            font-weight: 800;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .brand-meta {
+            color: var(--sidebar-muted);
+            font-family: var(--font-mono);
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .nav-scroll {
+            flex: 1;
+            padding: 14px 10px;
+        }
+
+        .nav-label {
+            margin: 15px 10px 6px;
+            color: #7f918a;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .nav-label:first-child {
+            margin-top: 2px;
+        }
+
+        .nav-item {
+            position: relative;
+            display: flex;
+            width: 100%;
+            min-height: 40px;
+            align-items: center;
+            gap: 11px;
+            margin: 2px 0;
+            padding: 8px 10px;
+            color: #c9d2cf;
+            background: transparent;
+            border: 0;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .nav-item:hover {
+            color: white;
+            background: #26312f;
+        }
+
+        .nav-item.active {
+            color: white;
+            background: #30423d;
+            box-shadow: inset 3px 0 #86d9ad;
+        }
+
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            flex: 0 0 18px;
+        }
+
+        .nav-item .count {
+            min-width: 22px;
+            margin-left: auto;
+            padding: 1px 6px;
+            color: #e5ece9;
+            background: #43504d;
+            border-radius: 10px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 12px;
+            border-top: 1px solid #34403d;
+        }
+
+        .system-state {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px;
+            color: #dbe4e1;
+            background: #202d29;
+            border: 1px solid #36443f;
+            border-radius: 5px;
+        }
+
+        .state-dot {
+            width: 8px;
+            height: 8px;
+            flex: 0 0 8px;
+            background: #69d39a;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(105, 211, 154, 0.12);
+        }
+
+        .state-copy strong,
+        .state-copy span {
+            display: block;
+        }
+
+        .state-copy strong {
+            font-size: 11px;
+        }
+
+        .state-copy span {
+            color: var(--sidebar-muted);
+            font-size: 10px;
+        }
+
+        .main-shell {
+            grid-column: 2;
+            min-width: 0;
+        }
+
+        .topbar {
+            position: sticky;
+            z-index: 45;
+            top: 0;
+            display: flex;
+            min-height: var(--topbar-height);
+            align-items: center;
+            gap: 14px;
+            padding: 0 24px;
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(12px);
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        .breadcrumb {
+            min-width: 130px;
+            color: var(--ink-soft);
+            font-size: 12px;
+        }
+
+        .breadcrumb strong {
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .target-switcher {
+            display: flex;
+            min-width: 0;
+            max-width: 440px;
+            align-items: center;
+            gap: 9px;
+            margin-left: auto;
+            padding: 7px 10px;
+            background: var(--surface-alt);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+        }
+
+        .target-switcher svg {
+            width: 16px;
+            height: 16px;
+            color: var(--green);
+        }
+
+        .target-label {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .target-label strong {
+            font-weight: 700;
+        }
+
+        .env-tag {
+            padding: 2px 6px;
+            color: #7a4303;
+            background: var(--amber-soft);
+            border: 1px solid #ecd3a6;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .icon-button,
+        .user-button {
+            display: inline-grid;
+            min-width: 36px;
+            min-height: 36px;
+            place-items: center;
+            color: var(--ink);
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 5px;
+        }
+
+        .icon-button:hover,
+        .user-button:hover {
+            border-color: var(--line-strong);
+            background: var(--surface-alt);
+        }
+
+        .icon-button svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .user-button {
+            display: flex;
+            gap: 8px;
+            padding: 4px 9px 4px 5px;
+        }
+
+        .avatar {
+            display: grid;
+            width: 26px;
+            height: 26px;
+            place-items: center;
+            color: white;
+            background: var(--blue);
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .user-button .user-name {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .content {
+            width: min(1560px, 100%);
+            margin: 0 auto;
+            padding: 28px 30px 54px;
+        }
+
+        .view {
+            display: none;
+            animation: view-in 180ms ease-out;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes view-in {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-header {
+            display: flex;
+            min-height: 60px;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .eyebrow {
+            margin-bottom: 5px;
+            color: var(--green);
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin-top: 0;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            font-size: 26px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        h2 {
+            margin-bottom: 4px;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        h3 {
+            margin-bottom: 4px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .page-subtitle,
+        .section-copy {
+            max-width: 720px;
+            margin-bottom: 0;
+            color: var(--ink-soft);
+            font-size: 12px;
+        }
+
+        .header-actions,
+        .button-row,
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .button {
+            display: inline-flex;
+            min-height: 36px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 7px 12px;
+            color: var(--ink);
+            background: white;
+            border: 1px solid var(--line-strong);
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .button:hover {
+            background: var(--surface-alt);
+            border-color: #96a69e;
+        }
+
+        .button.primary {
+            color: white;
+            background: var(--green);
+            border-color: var(--green);
+        }
+
+        .button.primary:hover {
+            background: #0e5b3e;
+        }
+
+        .button.blue {
+            color: white;
+            background: var(--blue);
+            border-color: var(--blue);
+        }
+
+        .button.danger {
+            color: var(--red);
+            background: white;
+            border-color: #dcaeaa;
+        }
+
+        .button:disabled {
+            cursor: not-allowed;
+            opacity: 0.46;
+        }
+
+        .button svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .metric {
+            min-width: 0;
+            min-height: 118px;
+            padding: 16px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-top: 3px solid var(--metric-color, var(--green));
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px rgba(23, 33, 31, 0.035);
+        }
+
+        .metric-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--ink-soft);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .metric-head svg {
+            width: 17px;
+            height: 17px;
+            color: var(--metric-color, var(--green));
+        }
+
+        .metric-value {
+            margin-top: 10px;
+            font-family: var(--font-mono);
+            font-size: 27px;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .metric-note {
+            margin-top: 8px;
+            color: var(--ink-soft);
+            font-size: 10px;
+        }
+
+        .metric-note strong {
+            color: var(--green);
+        }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr);
+            gap: 18px;
+        }
+
+        .workspace-grid.equal {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .workspace-grid.deploy-grid {
+            grid-template-columns: minmax(290px, 0.72fr) minmax(0, 1.28fr);
+        }
+
+        .project-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 18px;
+            padding: 4px;
+            overflow-x: auto;
+            background: #e9eeeb;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+        }
+
+        .project-tab {
+            display: inline-flex;
+            min-height: 36px;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 13px;
+            color: var(--ink-soft);
+            background: transparent;
+            border: 0;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .project-tab:hover {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.56);
+        }
+
+        .project-tab.active {
+            color: var(--ink);
+            background: white;
+            box-shadow: 0 2px 8px rgba(23, 33, 31, 0.08);
+        }
+
+        .project-tab svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .project-tab-panel {
+            display: none;
+        }
+
+        .project-tab-panel.active {
+            display: block;
+            animation: view-in 150ms ease-out;
+        }
+
+        .project-identity {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+        }
+
+        .project-key-block {
+            display: grid;
+            width: 52px;
+            height: 52px;
+            flex: 0 0 52px;
+            place-items: center;
+            color: white;
+            background: var(--blue);
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .project-facts {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0;
+            margin: 0;
+        }
+
+        .project-fact {
+            min-width: 0;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .project-fact:nth-child(odd) {
+            padding-right: 16px;
+        }
+
+        .project-fact:nth-child(even) {
+            padding-left: 16px;
+            border-left: 1px solid var(--line);
+        }
+
+        .project-fact dt {
+            color: var(--ink-soft);
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .project-fact dd {
+            margin: 4px 0 0;
+            overflow-wrap: anywhere;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .setup-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .setup-row {
+            display: grid;
+            grid-template-columns: 28px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 10px;
+            min-height: 56px;
+            padding: 9px 11px;
+            background: #fafbf9;
+            border: 1px solid var(--line);
+            border-radius: 5px;
+        }
+
+        .setup-row-icon {
+            display: grid;
+            width: 28px;
+            height: 28px;
+            place-items: center;
+            color: var(--green);
+            background: var(--green-soft);
+            border-radius: 4px;
+        }
+
+        .setup-row-icon.warning {
+            color: var(--amber);
+            background: var(--amber-soft);
+        }
+
+        .setup-row-icon svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .setup-row-copy strong,
+        .setup-row-copy span {
+            display: block;
+        }
+
+        .setup-row-copy strong {
+            font-size: 11px;
+        }
+
+        .setup-row-copy span {
+            margin-top: 2px;
+            color: var(--ink-soft);
+            font-size: 9px;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .action-tile {
+            display: grid;
+            min-height: 132px;
+            align-content: space-between;
+            gap: 16px;
+            padding: 15px;
+            color: var(--ink);
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            text-align: left;
+        }
+
+        .action-tile:hover {
+            background: #fafcf9;
+            border-color: var(--line-strong);
+            box-shadow: var(--shadow);
+        }
+
+        .action-tile svg {
+            width: 21px;
+            height: 21px;
+            color: var(--green);
+        }
+
+        .action-tile strong,
+        .action-tile span {
+            display: block;
+        }
+
+        .action-tile strong {
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .action-tile span {
+            margin-top: 4px;
+            color: var(--ink-soft);
+            font-size: 10px;
+        }
+
+        .action-tile .tile-link {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .stack {
+            display: grid;
+            align-content: start;
+            gap: 18px;
+        }
+
+        .panel {
+            min-width: 0;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px rgba(23, 33, 31, 0.035);
+        }
+
+        .panel-header {
+            display: flex;
+            min-height: 54px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .panel-body {
+            padding: 16px;
+        }
+
+        .panel-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #fafbf9;
+            border-top: 1px solid var(--line);
+            border-radius: 0 0 var(--radius) var(--radius);
+        }
+
+        .panel-title-row {
+            min-width: 0;
+        }
+
+        .panel-title-row p {
+            margin: 2px 0 0;
+            color: var(--ink-soft);
+            font-size: 10px;
+        }
+
+        .badge,
+        .status,
+        .tiny-tag {
+            display: inline-flex;
+            min-height: 22px;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 7px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .badge {
+            color: var(--blue);
+            background: var(--blue-soft);
+            border: 1px solid #c6d8ef;
+        }
+
+        .status.success,
+        .tiny-tag.create {
+            color: var(--green);
+            background: var(--green-soft);
+        }
+
+        .status.warning,
+        .tiny-tag.update {
+            color: var(--amber);
+            background: var(--amber-soft);
+        }
+
+        .status.danger,
+        .tiny-tag.blocked {
+            color: var(--red);
+            background: var(--red-soft);
+        }
+
+        .status.neutral,
+        .tiny-tag.unchanged {
+            color: #4e5e59;
+            background: #e9eeeb;
+        }
+
+        .status.info,
+        .tiny-tag.auto {
+            color: var(--blue);
+            background: var(--blue-soft);
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        th,
+        td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--line);
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            color: var(--ink-soft);
+            background: #fafbf9;
+            font-family: var(--font-mono);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        tbody tr:hover td {
+            background: #fbfcfa;
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+            font-size: 10px;
+        }
+
+        .table-primary {
+            display: block;
+            font-weight: 700;
+        }
+
+        .table-secondary {
+            display: block;
+            margin-top: 2px;
+            color: var(--ink-soft);
+            font-size: 10px;
+        }
+
+        .empty-inline {
+            color: var(--ink-soft);
+            font-size: 11px;
+        }
+
+        .attention-list,
+        .timeline,
+        .resource-list,
+        .step-list,
+        .capability-list {
+            display: grid;
+            gap: 0;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .attention-item {
+            display: grid;
+            grid-template-columns: 34px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 11px;
+            min-height: 68px;
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .attention-item:last-child {
+            border-bottom: 0;
+        }
+
+        .attention-icon {
+            display: grid;
+            width: 32px;
+            height: 32px;
+            place-items: center;
+            border-radius: 5px;
+        }
+
+        .attention-icon.warning {
+            color: var(--amber);
+            background: var(--amber-soft);
+        }
+
+        .attention-icon.danger {
+            color: var(--red);
+            background: var(--red-soft);
+        }
+
+        .attention-icon.info {
+            color: var(--blue);
+            background: var(--blue-soft);
+        }
+
+        .attention-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .attention-copy strong,
+        .attention-copy span {
+            display: block;
+        }
+
+        .attention-copy strong {
+            font-size: 11px;
+        }
+
+        .attention-copy span {
+            margin-top: 2px;
+            color: var(--ink-soft);
+            font-size: 10px;
+        }
+
+        .text-button {
+            padding: 5px;
+            color: var(--blue);
+            background: transparent;
+            border: 0;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .timeline-item {
+            position: relative;
+            display: grid;
+            grid-template-columns: 18px minmax(0, 1fr);
+            gap: 10px;
+            padding: 4px 0 16px;
+        }
+
+        .timeline-item:not(:last-child)::before {
+            position: absolute;
+            top: 19px;
+            bottom: 0;
+            left: 7px;
+            width: 1px;
+            content: "";
+            background: var(--line);
+        }
+
+        .timeline-dot {
+            z-index: 1;
+            width: 15px;
+            height: 15px;
+            margin-top: 2px;
+            background: var(--green-soft);
+            border: 4px solid var(--green);
+            border-radius: 50%;
+        }
+
+        .timeline-dot.running {
+            background: var(--blue-soft);
+            border-color: var(--blue);
+        }
+
+        .timeline-copy strong,
+        .timeline-copy span {
+            display: block;
+        }
+
+        .timeline-copy strong {
+            font-size: 11px;
+        }
+
+        .timeline-copy span {
+            margin-top: 2px;
+            color: var(--ink-soft);
+            font-size: 10px;
+        }
+
+        .stepper {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            margin-bottom: 18px;
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+        }
+
+        .stepper-item {
+            position: relative;
+            display: flex;
+            min-width: 0;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 14px;
+            border-right: 1px solid var(--line);
+        }
+
+        .stepper-item:last-child {
+            border-right: 0;
+        }
+
+        .step-number {
+            display: grid;
+            width: 24px;
+            height: 24px;
+            flex: 0 0 24px;
+            place-items: center;
+            color: var(--ink-soft);
+            background: var(--surface-alt);
+            border-radius: 50%;
+            font-family: var(--font-mono);
+            font-size: 9px;
+        }
+
+        .stepper-item.complete .step-number {
+            color: white;
+            background: var(--green);
+        }
+
+        .stepper-item.active {
+            background: #f2f7f4;
+        }
+
+        .stepper-item.active .step-number {
+            color: white;
+            background: var(--blue);
+        }
+
+        .step-label {
+            min-width: 0;
+        }
+
+        .step-label strong,
+        .step-label span {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .step-label strong {
+            font-size: 10px;
+        }
+
+        .step-label span {
+            color: var(--ink-soft);
+            font-size: 9px;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .field {
+            min-width: 0;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--ink-soft);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .input,
+        .select,
+        .textarea {
+            width: 100%;
+            min-height: 38px;
+            padding: 8px 10px;
+            color: var(--ink);
+            background: white;
+            border: 1px solid var(--line-strong);
+            border-radius: 4px;
+        }
+
+        .textarea {
+            min-height: 92px;
+            resize: vertical;
+            font-family: var(--font-mono);
+            font-size: 10px;
+        }
+
+        .resource-group {
+            border-bottom: 1px solid var(--line);
+        }
+
+        .resource-group:last-child {
+            border-bottom: 0;
+        }
+
+        .resource-row {
+            display: grid;
+            grid-template-columns: 22px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 8px;
+            min-height: 46px;
+            padding: 8px 13px;
+        }
+
+        .resource-row.child {
+            padding-left: 38px;
+            background: #fafbf9;
+        }
+
+        .resource-check {
+            width: 15px;
+            height: 15px;
+            accent-color: var(--green);
+        }
+
+        .resource-copy strong,
+        .resource-copy span {
+            display: block;
+        }
+
+        .resource-copy strong {
+            font-size: 11px;
+        }
+
+        .resource-copy span {
+            color: var(--ink-soft);
+            font-size: 9px;
+        }
+
+        .plan-summary {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 1px;
+            background: var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .plan-stat {
+            min-width: 0;
+            padding: 12px;
+            background: white;
+            text-align: center;
+        }
+
+        .plan-stat strong,
+        .plan-stat span {
+            display: block;
+        }
+
+        .plan-stat strong {
+            font-family: var(--font-mono);
+            font-size: 17px;
+        }
+
+        .plan-stat span {
+            margin-top: 2px;
+            color: var(--ink-soft);
+            font-size: 9px;
+        }
+
+        .segment-control {
+            display: inline-flex;
+            padding: 2px;
+            background: var(--surface-alt);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+        }
+
+        .segment-control button {
+            min-height: 28px;
+            padding: 4px 9px;
+            color: var(--ink-soft);
+            background: transparent;
+            border: 0;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .segment-control button.active {
+            color: var(--ink);
+            background: white;
+            box-shadow: 0 1px 4px rgba(23, 33, 31, 0.1);
+        }
+
+        .approval-bar {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 12px;
+            margin-top: 18px;
+            padding: 14px 16px;
+            background: #f0f6f2;
+            border: 1px solid #bcd4c5;
+            border-radius: var(--radius);
+        }
+
+        .approval-copy strong,
+        .approval-copy span {
+            display: block;
+        }
+
+        .approval-copy strong {
+            font-size: 11px;
+        }
+
+        .approval-copy span {
+            margin-top: 3px;
+            color: var(--ink-soft);
+            font-size: 10px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 7px;
+            overflow: hidden;
+            background: #e2e8e4;
+            border-radius: 4px;
+        }
+
+        .progress-bar {
+            width: var(--progress, 0%);
+            height: 100%;
+            background: var(--green);
+            border-radius: inherit;
+            transition: width 300ms ease;
+        }
+
+        .step-item {
+            display: grid;
+            grid-template-columns: 24px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 10px;
+            min-height: 52px;
+            padding: 9px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .step-item:last-child {
+            border-bottom: 0;
+        }
+
+        .step-icon {
+            display: grid;
+            width: 22px;
+            height: 22px;
+            place-items: center;
+            color: white;
+            background: var(--green);
+            border-radius: 50%;
+        }
+
+        .step-icon.running {
+            background: var(--blue);
+        }
+
+        .step-icon.pending {
+            color: var(--ink-soft);
+            background: var(--surface-alt);
+        }
+
+        .step-icon svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .step-copy strong,
+        .step-copy span {
+            display: block;
+        }
+
+        .step-copy strong {
+            font-size: 10px;
+        }
+
+        .step-copy span {
+            color: var(--ink-soft);
+            font-size: 9px;
+        }
+
+        .capability-item {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 12px;
+            padding: 9px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .capability-item:last-child {
+            border-bottom: 0;
+        }
+
+        .code-box {
+            padding: 13px;
+            color: #dce9e4;
+            background: var(--graphite);
+            border: 1px solid #37423f;
+            border-radius: 5px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            line-height: 1.65;
+            white-space: pre-wrap;
+        }
+
+        .notice {
+            display: grid;
+            grid-template-columns: 20px minmax(0, 1fr);
+            gap: 9px;
+            padding: 11px 12px;
+            color: #70430f;
+            background: var(--amber-soft);
+            border: 1px solid #e7c88e;
+            border-radius: 5px;
+            font-size: 10px;
+        }
+
+        .notice svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .ticket-tooltip {
+            position: fixed;
+            z-index: 9999;
+            display: none;
+            width: max-content;
+            max-width: min(330px, calc(100vw - 24px));
+            padding: 8px 10px;
+            color: white;
+            background: #111917;
+            border: 1px solid #40504a;
+            border-radius: 4px;
+            box-shadow: var(--shadow);
+            pointer-events: none;
+        }
+
+        .ticket-tooltip.visible {
+            display: block;
+        }
+
+        .tooltip-code {
+            display: block;
+            color: #9de0ba;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .tooltip-title {
+            display: block;
+            margin-top: 2px;
+            color: #e6eeeb;
+            font-size: 10px;
+        }
+
+        .toast {
+            position: fixed;
+            z-index: 200;
+            right: 20px;
+            bottom: 20px;
+            display: grid;
+            grid-template-columns: 22px minmax(0, 1fr) auto;
+            width: min(390px, calc(100vw - 32px));
+            align-items: center;
+            gap: 10px;
+            padding: 12px 13px;
+            color: white;
+            background: #1b2824;
+            border: 1px solid #3d4d47;
+            border-radius: 5px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 160ms ease, transform 160ms ease;
+            pointer-events: none;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast svg {
+            width: 18px;
+            height: 18px;
+            color: #88d9ac;
+        }
+
+        .toast strong,
+        .toast span {
+            display: block;
+        }
+
+        .toast strong {
+            font-size: 11px;
+        }
+
+        .toast span {
+            margin-top: 2px;
+            color: #b9c8c3;
+            font-size: 9px;
+        }
+
+        .sidebar-scrim {
+            position: fixed;
+            z-index: 55;
+            inset: 0;
+            display: none;
+            background: rgba(17, 25, 23, 0.5);
+        }
+
+        .ticketed {
+            transition: border-color 120ms ease, box-shadow 120ms ease;
+        }
+
+        .ticketed:hover {
+            box-shadow: inset 0 0 0 1px rgba(36, 94, 168, 0.18);
+        }
+
+        @media (max-width: 1180px) {
+            .metric-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .workspace-grid.deploy-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .app-shell {
+                display: block;
+            }
+
+            .main-shell {
+                min-width: 0;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 180ms ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-scrim.visible {
+                display: block;
+            }
+
+            .mobile-menu {
+                display: inline-grid;
+            }
+
+            .content {
+                padding: 22px 18px 46px;
+            }
+
+            .topbar {
+                padding: 0 14px;
+            }
+
+            .workspace-grid,
+            .workspace-grid.equal {
+                grid-template-columns: 1fr;
+            }
+
+            .action-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .target-switcher {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .page-header {
+                display: block;
+            }
+
+            .header-actions {
+                margin-top: 14px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .metric-grid,
+            .field-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-facts,
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-fact:nth-child(even),
+            .project-fact:nth-child(odd) {
+                padding-right: 0;
+                padding-left: 0;
+                border-left: 0;
+            }
+
+            .metric {
+                min-height: 104px;
+            }
+
+            .stepper {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stepper-item:nth-child(2) {
+                border-right: 0;
+            }
+
+            .stepper-item:nth-child(-n+2) {
+                border-bottom: 1px solid var(--line);
+            }
+
+            .plan-summary {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .plan-stat:nth-child(n+4) {
+                border-top: 1px solid var(--line);
+            }
+
+            .approval-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .approval-bar .button-row {
+                justify-content: flex-start;
+            }
+
+            .target-switcher {
+                max-width: none;
+                flex: 1;
+            }
+
+            .breadcrumb,
+            .user-name {
+                display: none;
+            }
+
+            .topbar {
+                gap: 8px;
+            }
+
+            .attention-item {
+                grid-template-columns: 34px minmax(0, 1fr);
+            }
+
+            .attention-item .text-button {
+                grid-column: 2;
+                justify-self: start;
+                padding-left: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="app-shell">
+        <aside class="sidebar ticketed" id="sidebar" data-ticket="P01-T05" aria-label="Primary navigation">
+            <div class="brand ticketed" data-ticket="P01-T05">
+                <span class="brand-mark">JD</span>
+                <span class="brand-copy">
+                    <span class="brand-name">Jira Deployer</span>
+                    <span class="brand-meta">Control plane</span>
+                </span>
+            </div>
+
+            <nav class="nav-scroll">
+                <div class="nav-label">Portfolio</div>
+                <button class="nav-item active ticketed" type="button" data-view="overview" data-ticket="P01-T06">
+                    <i data-lucide="layout-dashboard"></i><span>Dashboard</span>
+                </button>
+                <button class="nav-item ticketed" type="button" data-view="projects" data-ticket="P01-T07">
+                    <i data-lucide="folder-kanban"></i><span>Projects</span><span class="count">4</span>
+                </button>
+                <button class="nav-item ticketed" type="button" data-view="blueprints" data-ticket="P02-T02">
+                    <i data-lucide="layers-3"></i><span>Blueprints</span>
+                </button>
+                <button class="nav-item ticketed" type="button" data-view="connections" data-ticket="P02-T01">
+                    <i data-lucide="plug-zap"></i><span>Connections</span>
+                </button>
+
+                <div class="nav-label">Operate</div>
+                <button class="nav-item ticketed" type="button" data-view="jobs" data-ticket="P03-T08">
+                    <i data-lucide="activity"></i><span>Jobs</span><span class="count">1</span>
+                </button>
+                <button class="nav-item ticketed" type="button" data-view="validation" data-ticket="P05-T07">
+                    <i data-lucide="shield-check"></i><span>Validation</span><span class="count">4</span>
+                </button>
+                <button class="nav-item ticketed" type="button" data-view="test-data" data-ticket="P05-T01">
+                    <i data-lucide="flask-conical"></i><span>Test data</span>
+                </button>
+                <button class="nav-item ticketed" type="button" data-view="batches" data-ticket="P06-T01">
+                    <i data-lucide="list-checks"></i><span>Batches</span>
+                </button>
+
+                <div class="nav-label">Govern</div>
+                <button class="nav-item ticketed" type="button" data-view="audit" data-ticket="P03-T08">
+                    <i data-lucide="scroll-text"></i><span>Audit</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="system-state ticketed" data-ticket="P06-T06" tabindex="0">
+                    <span class="state-dot"></span>
+                    <span class="state-copy">
+                        <strong>All systems ready</strong>
+                        <span>Worker heartbeat 8s ago</span>
+                    </span>
+                </div>
+            </div>
+        </aside>
+
+        <div class="sidebar-scrim" id="sidebar-scrim"></div>
+
+        <div class="main-shell">
+            <header class="topbar ticketed" data-ticket="P01-T05">
+                <button class="icon-button mobile-menu ticketed" id="mobile-menu" type="button" data-ticket="P01-T05" aria-label="Open navigation">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="breadcrumb">Workspace / <strong id="breadcrumb-current">Overview</strong></div>
+                <div class="target-switcher ticketed" id="scope-switcher" data-ticket="P01-T06" tabindex="0">
+                    <i data-lucide="panels-top-left"></i>
+                    <span class="target-label" id="scope-label"><strong>Portfolio</strong> / All Jira projects</span>
+                    <span class="env-tag" id="scope-tag">4 PROJECTS</span>
+                </div>
+                <button class="user-button ticketed" type="button" data-ticket="P01-T03" data-toast="Role menu opened" aria-label="Open user menu">
+                    <span class="avatar">AM</span>
+                    <span class="user-name">Alex Morgan</span>
+                    <i data-lucide="chevron-down" style="width:14px;height:14px"></i>
+                </button>
+            </header>
+
+            <main class="content" id="main-content">
+                <section class="view active ticketed" data-panel="overview" data-ticket="P01-T06">
+                    <div class="page-header">
+                        <div>
+                            <div class="eyebrow">Friday, 21 August</div>
+                            <h1>Project portfolio</h1>
+                            <p class="page-subtitle">Deployment readiness, active work, and configuration health across all managed Jira projects.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="button ticketed" type="button" data-ticket="P05-T04" data-go-view="validation">
+                                <i data-lucide="scan-search"></i>Run validation
+                            </button>
+                            <button class="button primary ticketed" type="button" data-ticket="P03-T04" data-toast="New project setup opened">
+                                <i data-lucide="plus"></i>Add Jira project
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="metric-grid">
+                        <article class="metric ticketed" data-ticket="P01-T06" style="--metric-color:var(--green)" tabindex="0">
+                            <div class="metric-head"><span>Managed projects</span><i data-lucide="folder-kanban"></i></div>
+                            <div class="metric-value">4</div>
+                            <div class="metric-note"><strong>3 ready</strong> / 1 needs attention</div>
+                        </article>
+                        <article class="metric ticketed" data-ticket="P02-T01" style="--metric-color:var(--blue)" tabindex="0">
+                            <div class="metric-head"><span>Connected Jira sites</span><i data-lucide="plug-zap"></i></div>
+                            <div class="metric-value">3</div>
+                            <div class="metric-note">All connections healthy</div>
+                        </article>
+                        <article class="metric ticketed" data-ticket="P03-T08" style="--metric-color:var(--amber)" tabindex="0">
+                            <div class="metric-head"><span>Active jobs</span><i data-lucide="activity"></i></div>
+                            <div class="metric-value">1</div>
+                            <div class="metric-note">62% complete / 18 of 29 steps</div>
+                        </article>
+                        <article class="metric ticketed" data-ticket="P05-T05" style="--metric-color:var(--red)" tabindex="0">
+                            <div class="metric-head"><span>Drift findings</span><i data-lucide="git-compare-arrows"></i></div>
+                            <div class="metric-value">4</div>
+                            <div class="metric-note">1 error / 3 warnings</div>
+                        </article>
+                    </div>
+
+                    <section class="panel ticketed" data-ticket="P01-T06" style="margin-bottom:18px">
+                        <div class="panel-header">
+                            <div class="panel-title-row"><h2>Jira projects</h2><p>Configuration health and active work across the portfolio</p></div>
+                            <button class="text-button ticketed" type="button" data-ticket="P01-T07" data-go-view="projects">View registry</button>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Project</th><th>Jira site</th><th>Blueprint</th><th>Configuration</th><th>Activity</th><th></th></tr></thead>
+                                <tbody>
+                                    <tr><td><span class="table-primary">Delivery Platform</span><span class="table-secondary mono">DELIVERY</span></td><td>Erste Sandbox</td><td class="mono">0.1.0</td><td><span class="status warning">4 drift findings</span></td><td>1 job running</td><td><button class="text-button ticketed" type="button" data-ticket="P01-T07" data-open-project="DELIVERY">Open project</button></td></tr>
+                                    <tr><td><span class="table-primary">Analytics Workspace</span><span class="table-secondary mono">ANALYTICS</span></td><td>Delivery Development</td><td class="mono">1.4.2</td><td><span class="status success">Matches</span></td><td>Validated 1h ago</td><td><button class="text-button ticketed" type="button" data-ticket="P01-T07" data-open-project="ANALYTICS">Open project</button></td></tr>
+                                    <tr><td><span class="table-primary">Risk Governance</span><span class="table-secondary mono">RISK</span></td><td>Erste Sandbox</td><td class="mono">0.8.0</td><td><span class="status warning">Plan pending</span></td><td>No active jobs</td><td><button class="text-button ticketed" type="button" data-ticket="P01-T07" data-open-project="RISK">Open project</button></td></tr>
+                                    <tr><td><span class="table-primary">DIC Operations</span><span class="table-secondary mono">DICOPS</span></td><td>Group Jira Test</td><td class="mono">2.2.1</td><td><span class="status success">Matches</span></td><td>Validated yesterday</td><td><button class="text-button ticketed" type="button" data-ticket="P01-T07" data-open-project="DICOPS">Open project</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <div class="workspace-grid">
+                        <section class="panel ticketed" data-ticket="P01-T06">
+                            <div class="panel-header">
+                                <div class="panel-title-row"><h2>Needs attention</h2><p>Ordered by operational impact</p></div>
+                                <span class="badge">3 items</span>
+                            </div>
+                            <ul class="attention-list">
+                                <li class="attention-item ticketed" data-ticket="P02-T06">
+                                    <span class="attention-icon danger"><i data-lucide="circle-x"></i></span>
+                                    <span class="attention-copy"><strong>DELIVERY / Plan PL-1042 is blocked</strong><span>Workflow requires one unsupported validator.</span></span>
+                                    <button class="text-button ticketed" type="button" data-ticket="P02-T07" data-go-view="deploy">Review plan</button>
+                                </li>
+                                <li class="attention-item ticketed" data-ticket="P05-T05">
+                                    <span class="attention-icon warning"><i data-lucide="triangle-alert"></i></span>
+                                    <span class="attention-copy"><strong>DELIVERY / Configuration drift detected</strong><span>Entities field has two unplanned options.</span></span>
+                                    <button class="text-button ticketed" type="button" data-ticket="P05-T07" data-go-view="validation">View findings</button>
+                                </li>
+                                <li class="attention-item ticketed" data-ticket="P06-T03">
+                                    <span class="attention-icon info"><i data-lucide="calendar-clock"></i></span>
+                                    <span class="attention-copy"><strong>RISK / Weekly validation is paused</strong><span>Last run was skipped by overlap policy.</span></span>
+                                    <button class="text-button ticketed" type="button" data-ticket="P06-T03" data-go-view="batches">Review schedule</button>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section class="panel ticketed" data-ticket="P03-T08">
+                            <div class="panel-header">
+                                <div class="panel-title-row"><h2>Recent execution</h2><p>Current and completed jobs</p></div>
+                                <button class="icon-button ticketed" type="button" data-ticket="P03-T08" data-go-view="jobs" aria-label="Open all jobs"><i data-lucide="arrow-up-right"></i></button>
+                            </div>
+                            <div class="panel-body">
+                                <ol class="timeline">
+                                    <li class="timeline-item">
+                                        <span class="timeline-dot running"></span>
+                                        <span class="timeline-copy"><strong>Deploy DELIVERY 0.1.0</strong><span>Running / 18 of 29 steps / 4m 12s</span></span>
+                                    </li>
+                                    <li class="timeline-item">
+                                        <span class="timeline-dot"></span>
+                                        <span class="timeline-copy"><strong>Post-deployment validation</strong><span>Passed / 24 rules / 09:31</span></span>
+                                    </li>
+                                    <li class="timeline-item">
+                                        <span class="timeline-dot"></span>
+                                        <span class="timeline-copy"><strong>Smoke data cleanup</strong><span>Completed / 52 issues / Yesterday</span></span>
+                                    </li>
+                                </ol>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="view ticketed" data-panel="projects" data-ticket="P01-T07">
+                    <div class="page-header">
+                        <div><div class="eyebrow">Portfolio registry</div><h1>Jira projects</h1><p class="page-subtitle">Open a project to inspect its details, setup readiness, and scoped operations.</p></div>
+                        <button class="button primary ticketed" type="button" data-ticket="P03-T04" data-toast="New project setup opened"><i data-lucide="plus"></i>Add Jira project</button>
+                    </div>
+                    <section class="panel ticketed" data-ticket="P01-T07">
+                        <div class="panel-header">
+                            <div class="filter-row"><input class="input" style="width:230px" aria-label="Search projects" placeholder="Search key, name, or site"><select class="select" style="width:170px"><option>All Jira sites</option><option>Erste Jira Sandbox</option><option>Delivery Development</option></select></div>
+                            <span class="badge">4 projects</span>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Project</th><th>Owner</th><th>Site</th><th>Baseline</th><th>Last validation</th><th>Status</th><th></th></tr></thead>
+                                <tbody>
+                                    <tr><td><span class="table-primary">Delivery Platform</span><span class="table-secondary mono">DELIVERY / software</span></td><td>Alex Morgan</td><td>Erste Sandbox</td><td class="mono">0.1.0</td><td>Today 09:31</td><td><span class="status warning">Needs attention</span></td><td><button class="button ticketed" type="button" data-ticket="P01-T07" data-open-project="DELIVERY">Open</button></td></tr>
+                                    <tr><td><span class="table-primary">Analytics Workspace</span><span class="table-secondary mono">ANALYTICS / software</span></td><td>Data Platform</td><td>Delivery Development</td><td class="mono">1.4.2</td><td>Today 08:12</td><td><span class="status success">Ready</span></td><td><button class="button ticketed" type="button" data-ticket="P01-T07" data-open-project="ANALYTICS">Open</button></td></tr>
+                                    <tr><td><span class="table-primary">Risk Governance</span><span class="table-secondary mono">RISK / business</span></td><td>Risk Office</td><td>Erste Sandbox</td><td class="mono">0.8.0</td><td>18 Aug</td><td><span class="status warning">Plan pending</span></td><td><button class="button ticketed" type="button" data-ticket="P01-T07" data-open-project="RISK">Open</button></td></tr>
+                                    <tr><td><span class="table-primary">DIC Operations</span><span class="table-secondary mono">DICOPS / software</span></td><td>DIC Central</td><td>Group Jira Test</td><td class="mono">2.2.1</td><td>Yesterday</td><td><span class="status success">Ready</span></td><td><button class="button ticketed" type="button" data-ticket="P01-T07" data-open-project="DICOPS">Open</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
+
+                <section class="view ticketed" data-panel="project" data-ticket="P01-T07">
+                    <div class="page-header">
+                        <div class="project-identity">
+                            <span class="project-key-block" id="project-key-block">DEL</span>
+                            <span><span class="eyebrow" id="project-eyebrow">Project / DELIVERY</span><h1 id="project-name">Delivery Platform</h1><p class="page-subtitle" id="project-subtitle">Company-managed software project / Erste Jira Sandbox</p></span>
+                        </div>
+                        <div class="header-actions"><button class="button ticketed" type="button" data-ticket="P01-T07" data-toast="Jira project opened in a new tab"><i data-lucide="external-link"></i>Open in Jira</button><button class="button primary ticketed" type="button" data-ticket="P02-T07" data-go-view="deploy" data-scope="project"><i data-lucide="settings-2"></i>Review setup</button></div>
+                    </div>
+
+                    <div class="project-tabs ticketed" data-ticket="P01-T07" role="tablist" aria-label="Project workspace sections">
+                        <button class="project-tab active ticketed" type="button" role="tab" aria-selected="true" data-project-tab="project-overview" data-ticket="P01-T07"><i data-lucide="layout-dashboard"></i>Overview</button>
+                        <button class="project-tab ticketed" type="button" role="tab" aria-selected="false" data-project-tab="project-setup" data-ticket="P01-T07"><i data-lucide="settings-2"></i>Setup</button>
+                        <button class="project-tab ticketed" type="button" role="tab" aria-selected="false" data-project-tab="project-operations" data-ticket="P01-T07"><i data-lucide="activity"></i>Operations</button>
+                    </div>
+
+                    <div class="project-tab-panel active" data-project-panel="project-overview">
+                        <div class="metric-grid">
+                            <article class="metric ticketed" data-ticket="P01-T07" style="--metric-color:var(--green)" tabindex="0"><div class="metric-head"><span>Setup readiness</span><i data-lucide="gauge"></i></div><div class="metric-value">92%</div><div class="metric-note">12 of 13 resources ready</div></article>
+                            <article class="metric ticketed" data-ticket="P02-T02" style="--metric-color:var(--blue)" tabindex="0"><div class="metric-head"><span>Blueprint baseline</span><i data-lucide="layers-3"></i></div><div class="metric-value">0.1.0</div><div class="metric-note">Checksum 7b2c...d941</div></article>
+                            <article class="metric ticketed" data-ticket="P03-T08" style="--metric-color:var(--amber)" tabindex="0"><div class="metric-head"><span>Active jobs</span><i data-lucide="activity"></i></div><div class="metric-value">1</div><div class="metric-note">Deployment is 62% complete</div></article>
+                            <article class="metric ticketed" data-ticket="P05-T05" style="--metric-color:var(--red)" tabindex="0"><div class="metric-head"><span>Drift findings</span><i data-lucide="git-compare-arrows"></i></div><div class="metric-value">4</div><div class="metric-note">1 error / 3 warnings</div></article>
+                        </div>
+                        <div class="workspace-grid equal">
+                            <section class="panel ticketed" data-ticket="P01-T07">
+                                <div class="panel-header"><div class="panel-title-row"><h2>Project details</h2><p>Persisted Jira identity and ownership</p></div><span class="status success">Connected</span></div>
+                                <div class="panel-body"><dl class="project-facts"><div class="project-fact"><dt>Project key</dt><dd class="mono">DELIVERY</dd></div><div class="project-fact"><dt>Jira project ID</dt><dd class="mono">10417</dd></div><div class="project-fact"><dt>Project type</dt><dd>Company-managed software</dd></div><div class="project-fact"><dt>Lead</dt><dd>Alex Morgan</dd></div><div class="project-fact"><dt>Jira site</dt><dd>Erste Jira Sandbox</dd></div><div class="project-fact"><dt>Environment</dt><dd>Test</dd></div><div class="project-fact"><dt>Last deployment</dt><dd>Today 10:14</dd></div><div class="project-fact"><dt>Last validation</dt><dd>Today 09:31</dd></div></dl></div>
+                            </section>
+                            <section class="panel ticketed" data-ticket="P03-T08">
+                                <div class="panel-header"><div class="panel-title-row"><h2>Recent project activity</h2><p>Jobs and evidence scoped to DELIVERY</p></div><button class="text-button ticketed" type="button" data-ticket="P03-T08" data-go-view="jobs" data-scope="project">View jobs</button></div>
+                                <div class="panel-body"><ol class="timeline"><li class="timeline-item"><span class="timeline-dot running"></span><span class="timeline-copy"><strong>Deployment running</strong><span>JOB-2091 / 18 of 29 steps</span></span></li><li class="timeline-item"><span class="timeline-dot"></span><span class="timeline-copy"><strong>Validation completed</strong><span>RUN-887 / 1 failure</span></span></li><li class="timeline-item"><span class="timeline-dot"></span><span class="timeline-copy"><strong>Plan approved</strong><span>PL-1042 / Alex Morgan</span></span></li></ol></div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="project-tab-panel" data-project-panel="project-setup">
+                        <div class="workspace-grid deploy-grid">
+                            <section class="panel ticketed" data-ticket="P01-T07">
+                                <div class="panel-header"><div class="panel-title-row"><h2>Setup baseline</h2><p>Desired and observed configuration status</p></div><span class="status warning">1 action needed</span></div>
+                                <div class="panel-body"><dl class="project-facts"><div class="project-fact"><dt>Blueprint</dt><dd>Erste Delivery Project</dd></div><div class="project-fact"><dt>Version</dt><dd class="mono">0.1.0</dd></div><div class="project-fact"><dt>Last plan</dt><dd class="mono">PL-1042</dd></div><div class="project-fact"><dt>Plan state</dt><dd>Blocked</dd></div><div class="project-fact"><dt>Resources</dt><dd>13 desired</dd></div><div class="project-fact"><dt>Automatic dependencies</dt><dd>5 included</dd></div></dl></div>
+                                <div class="panel-footer"><span class="empty-inline">All changes require a dry-run plan.</span><button class="button primary ticketed" type="button" data-ticket="P02-T07" data-go-view="deploy" data-scope="project"><i data-lucide="scan-search"></i>Open setup plan</button></div>
+                            </section>
+                            <section class="panel ticketed" data-ticket="P02-T07">
+                                <div class="panel-header"><div class="panel-title-row"><h2>Configuration areas</h2><p>Current readiness by deployable domain</p></div></div>
+                                <div class="panel-body setup-list">
+                                    <div class="setup-row ticketed" data-ticket="P03-T04"><span class="setup-row-icon"><i data-lucide="folder-check"></i></span><span class="setup-row-copy"><strong>Project metadata</strong><span>Key, name, lead, and project type</span></span><span class="status success">Ready</span></div>
+                                    <div class="setup-row ticketed" data-ticket="P04-T02"><span class="setup-row-icon"><i data-lucide="shapes"></i></span><span class="setup-row-copy"><strong>Issue types and scheme</strong><span>Requirement, Test, and Defect</span></span><span class="status success">Ready</span></div>
+                                    <div class="setup-row ticketed" data-ticket="P04-T03"><span class="setup-row-icon warning"><i data-lucide="git-branch"></i></span><span class="setup-row-copy"><strong>Statuses and workflows</strong><span>One validator is unsupported</span></span><span class="status danger">Blocked</span></div>
+                                    <div class="setup-row ticketed" data-ticket="P04-T04"><span class="setup-row-icon"><i data-lucide="list-tree"></i></span><span class="setup-row-copy"><strong>Fields and contexts</strong><span>Entities field differs by two options</span></span><span class="status warning">Update</span></div>
+                                    <div class="setup-row ticketed" data-ticket="P04-T05"><span class="setup-row-icon"><i data-lucide="panels-top-left"></i></span><span class="setup-row-copy"><strong>Screens and placements</strong><span>Create, edit, and view screens</span></span><span class="status success">Ready</span></div>
+                                    <div class="setup-row ticketed" data-ticket="P04-T06"><span class="setup-row-icon"><i data-lucide="waypoints"></i></span><span class="setup-row-copy"><strong>Project scheme associations</strong><span>Waiting for workflow resolution</span></span><span class="status neutral">Waiting</span></div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="project-tab-panel" data-project-panel="project-operations">
+                        <div class="action-grid">
+                            <button class="action-tile ticketed" type="button" data-ticket="P02-T07" data-go-view="deploy" data-scope="project"><span><i data-lucide="rocket"></i><strong>Plan configuration</strong><span>Compare blueprint and Jira state before any change.</span></span><span class="tile-link">Open setup</span></button>
+                            <button class="action-tile ticketed" type="button" data-ticket="P05-T07" data-go-view="validation" data-scope="project"><span><i data-lucide="shield-check"></i><strong>Validate project</strong><span>Run drift, permission, and workflow checks.</span></span><span class="tile-link">Open validation</span></button>
+                            <button class="action-tile ticketed" type="button" data-ticket="P05-T01" data-go-view="test-data" data-scope="project"><span><i data-lucide="flask-conical"></i><strong>Manage test data</strong><span>Preview, seed, map, and safely clean test packs.</span></span><span class="tile-link">Open test data</span></button>
+                            <button class="action-tile ticketed" type="button" data-ticket="P06-T01" data-go-view="batches" data-scope="project"><span><i data-lucide="list-checks"></i><strong>Run issue batch</strong><span>Preview capped JQL actions and execution limits.</span></span><span class="tile-link">Open batches</span></button>
+                            <button class="action-tile ticketed" type="button" data-ticket="P03-T08" data-go-view="jobs" data-scope="project"><span><i data-lucide="activity"></i><strong>Project jobs</strong><span>Inspect durable progress, retries, and cancellation.</span></span><span class="tile-link">View jobs</span></button>
+                            <button class="action-tile ticketed" type="button" data-ticket="P03-T08" data-go-view="audit" data-scope="project"><span><i data-lucide="scroll-text"></i><strong>Project audit</strong><span>Trace approvals, mutations, and validation evidence.</span></span><span class="tile-link">View audit</span></button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="view ticketed" data-panel="deploy" data-ticket="P02-T07">
+                    <div class="page-header">
+                        <div>
+                            <div class="eyebrow">DELIVERY / Setup / Plan PL-1042</div>
+                            <h1>Configure Delivery Platform</h1>
+                            <p class="page-subtitle">Select a dependency-safe project scope, inspect target differences, and approve an immutable execution plan.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="button ticketed" type="button" data-ticket="P02-T06" data-toast="Draft plan saved"><i data-lucide="save"></i>Save draft</button>
+                            <button class="button blue ticketed" type="button" data-ticket="P02-T06" id="generate-plan"><i data-lucide="scan-search"></i>Generate plan</button>
+                        </div>
+                    </div>
+
+                    <div class="stepper ticketed" data-ticket="P02-T07">
+                        <div class="stepper-item complete"><span class="step-number">1</span><span class="step-label"><strong>Target</strong><span>Sandbox / DELIVERY</span></span></div>
+                        <div class="stepper-item complete"><span class="step-number">2</span><span class="step-label"><strong>Scope</strong><span id="step-selected">13 resources</span></span></div>
+                        <div class="stepper-item active"><span class="step-number">3</span><span class="step-label"><strong>Plan</strong><span>Review changes</span></span></div>
+                        <div class="stepper-item"><span class="step-number">4</span><span class="step-label"><strong>Approve</strong><span>Permission required</span></span></div>
+                    </div>
+
+                    <div class="workspace-grid deploy-grid">
+                        <div class="stack">
+                            <section class="panel ticketed" data-ticket="P02-T01">
+                                <div class="panel-header"><div class="panel-title-row"><h2>Target and blueprint</h2><p>Immutable inputs for this plan</p></div><span class="status success">Connected</span></div>
+                                <div class="panel-body field-grid">
+                                    <div class="field full"><label for="connection">Jira connection</label><select class="select" id="connection"><option>Erste Jira Sandbox</option><option>Delivery Development</option></select></div>
+                                    <div class="field"><label for="project-key">Project key</label><input class="input mono" id="project-key" value="DELIVERY"></div>
+                                    <div class="field"><label for="blueprint-version">Blueprint</label><select class="select" id="blueprint-version"><option>Erste Delivery / 0.1.0</option></select></div>
+                                </div>
+                            </section>
+
+                            <section class="panel ticketed" data-ticket="P02-T07">
+                                <div class="panel-header"><div class="panel-title-row"><h2>Configuration scope</h2><p><span id="selected-count">13</span> selected / 5 automatic</p></div><button class="text-button ticketed" type="button" data-ticket="P02-T07" id="select-all">Select all</button></div>
+                                <div class="resource-list">
+                                    <div class="resource-group ticketed" data-ticket="P03-T04">
+                                        <label class="resource-row"><input class="resource-check" type="checkbox" checked><span class="resource-copy"><strong>Project</strong><span>Key, name, type, and lead</span></span><span class="tiny-tag create">Create</span></label>
+                                    </div>
+                                    <div class="resource-group ticketed" data-ticket="P04-T02">
+                                        <label class="resource-row"><input class="resource-check" type="checkbox" checked><span class="resource-copy"><strong>Issue types</strong><span>Requirement, Test, Defect</span></span><span class="tiny-tag update">Update</span></label>
+                                        <label class="resource-row child"><input class="resource-check" type="checkbox" checked disabled><span class="resource-copy"><strong>Issue type scheme</strong><span>Required dependency</span></span><span class="tiny-tag auto">Automatic</span></label>
+                                    </div>
+                                    <div class="resource-group ticketed" data-ticket="P04-T03">
+                                        <label class="resource-row"><input class="resource-check" type="checkbox" checked><span class="resource-copy"><strong>Workflow</strong><span>Requirement lifecycle</span></span><span class="tiny-tag create">Create</span></label>
+                                        <label class="resource-row child"><input class="resource-check" type="checkbox" checked disabled><span class="resource-copy"><strong>Statuses</strong><span>New, In Progress, Done</span></span><span class="tiny-tag auto">Automatic</span></label>
+                                    </div>
+                                    <div class="resource-group ticketed" data-ticket="P04-T04">
+                                        <label class="resource-row"><input class="resource-check" type="checkbox" checked><span class="resource-copy"><strong>Custom fields</strong><span>Entities and project context</span></span><span class="tiny-tag update">Update</span></label>
+                                    </div>
+                                    <div class="resource-group ticketed" data-ticket="P04-T05">
+                                        <label class="resource-row"><input class="resource-check" type="checkbox"><span class="resource-copy"><strong>Screens</strong><span>Create, edit, and view placement</span></span><span class="tiny-tag unchanged">Unchanged</span></label>
+                                    </div>
+                                    <div class="resource-group ticketed" data-ticket="P04-T06">
+                                        <label class="resource-row"><input class="resource-check" type="checkbox" checked><span class="resource-copy"><strong>Project schemes</strong><span>Workflow and screen association</span></span><span class="tiny-tag blocked">Blocked</span></label>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <section class="panel ticketed" data-ticket="P02-T06">
+                            <div class="panel-header">
+                                <div class="panel-title-row"><h2>Dry-run plan</h2><p>Target fingerprint 7b2c...d941 / generated 2m ago</p></div>
+                                <div class="segment-control ticketed" data-ticket="P02-T07" aria-label="Plan operation filter">
+                                    <button class="active" type="button" data-plan-filter="all" data-ticket="P02-T07">All</button>
+                                    <button type="button" data-plan-filter="change" data-ticket="P02-T07">Changes</button>
+                                    <button type="button" data-plan-filter="blocked" data-ticket="P02-T07">Blocked</button>
+                                </div>
+                            </div>
+                            <div class="plan-summary">
+                                <div class="plan-stat"><strong>6</strong><span>Create</span></div>
+                                <div class="plan-stat"><strong>3</strong><span>Update</span></div>
+                                <div class="plan-stat"><strong>3</strong><span>Unchanged</span></div>
+                                <div class="plan-stat"><strong>1</strong><span>Blocked</span></div>
+                                <div class="plan-stat"><strong>2</strong><span>Unsupported</span></div>
+                            </div>
+                            <div class="notice ticketed" data-ticket="P04-T01" style="margin:14px 14px 0">
+                                <i data-lucide="triangle-alert"></i>
+                                <span><strong>Shared-resource impact:</strong> Entities field is used by 2 other projects. Elevated approval is required.</span>
+                            </div>
+                            <div class="table-wrap" style="margin-top:14px">
+                                <table>
+                                    <thead><tr><th>Operation</th><th>Resource</th><th>Scope</th><th>Reason</th></tr></thead>
+                                    <tbody id="plan-rows">
+                                        <tr data-kind="change"><td><span class="tiny-tag create">Create</span></td><td><span class="table-primary">project.main</span><span class="table-secondary">Delivery Project</span></td><td>Project</td><td>Not found</td></tr>
+                                        <tr data-kind="change"><td><span class="tiny-tag update">Update</span></td><td><span class="table-primary">field.entities</span><span class="table-secondary">Entities</span></td><td>Global</td><td>2 options differ</td></tr>
+                                        <tr data-kind="change"><td><span class="tiny-tag create">Create</span></td><td><span class="table-primary">workflow.requirement</span><span class="table-secondary">Requirement Workflow</span></td><td>Global</td><td>Not found</td></tr>
+                                        <tr data-kind="blocked"><td><span class="tiny-tag blocked">Blocked</span></td><td><span class="table-primary">workflow-scheme.main</span><span class="table-secondary">Delivery Project Workflows</span></td><td>Project</td><td>Unsupported validator</td></tr>
+                                        <tr data-kind="unchanged"><td><span class="tiny-tag unchanged">Unchanged</span></td><td><span class="table-primary">screen.main</span><span class="table-secondary">Delivery Screen</span></td><td>Global</td><td>Matches desired state</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="approval-bar ticketed" data-ticket="P03-T07">
+                        <div class="approval-copy"><strong id="approval-title">Plan requires resolution before approval</strong><span id="approval-note">One blocked operation must be removed or supported before execution.</span></div>
+                        <div class="button-row">
+                            <button class="button ticketed" type="button" data-ticket="P06-T04" data-toast="Plan report prepared"><i data-lucide="download"></i>Export plan</button>
+                            <button class="button primary ticketed" type="button" data-ticket="P03-T07" id="approve-plan"><i data-lucide="badge-check"></i>Resolve and approve</button>
+                            <button class="button blue ticketed" type="button" data-ticket="P03-T07" id="execute-plan" disabled><i data-lucide="play"></i>Execute</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="view ticketed" data-panel="blueprints" data-ticket="P02-T02">
+                    <div class="page-header">
+                        <div><div class="eyebrow">Configuration library</div><h1>Blueprints</h1><p class="page-subtitle">Immutable, schema-validated desired state for Jira projects.</p></div>
+                        <button class="button primary ticketed" type="button" data-ticket="P02-T02" data-toast="Blueprint upload dialog opened"><i data-lucide="upload"></i>Upload blueprint</button>
+                    </div>
+                    <section class="panel ticketed" data-ticket="P02-T02">
+                        <div class="panel-header"><div class="panel-title-row"><h2>Blueprint versions</h2><p>3 blueprints / 8 immutable versions</p></div><span class="status success">Schema current</span></div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Blueprint</th><th>Version</th><th>Resources</th><th>Validation</th><th>Updated</th><th></th></tr></thead>
+                                <tbody>
+                                    <tr class="ticketed" data-ticket="P02-T03"><td><span class="table-primary">Erste Delivery Project</span><span class="table-secondary mono">erste-delivery-project</span></td><td class="mono">0.1.0</td><td>13</td><td><span class="status success">Valid</span></td><td>Today 08:42</td><td><button class="text-button ticketed" type="button" data-ticket="P02-T07" data-go-view="deploy">Create plan</button></td></tr>
+                                    <tr class="ticketed" data-ticket="P02-T03"><td><span class="table-primary">Analytics Project</span><span class="table-secondary mono">analytics-project</span></td><td class="mono">1.4.2</td><td>47</td><td><span class="status success">Valid</span></td><td>Yesterday</td><td><button class="text-button ticketed" type="button" data-ticket="P02-T02" data-toast="Blueprint details opened">Open</button></td></tr>
+                                    <tr class="ticketed" data-ticket="P02-T03"><td><span class="table-primary">Risk Workspace</span><span class="table-secondary mono">risk-workspace</span></td><td class="mono">0.8.0</td><td>28</td><td><span class="status warning">2 warnings</span></td><td>18 Aug</td><td><button class="text-button ticketed" type="button" data-ticket="P02-T03" data-toast="Validation details opened">Review</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
+
+                <section class="view ticketed" data-panel="connections" data-ticket="P02-T01">
+                    <div class="page-header">
+                        <div><div class="eyebrow">Jira Cloud targets</div><h1>Connections</h1><p class="page-subtitle">Site identity, credential references, permissions, and discovered API capabilities.</p></div>
+                        <button class="button primary ticketed" type="button" data-ticket="P02-T01" data-toast="New connection form opened"><i data-lucide="plus"></i>Add connection</button>
+                    </div>
+                    <div class="workspace-grid">
+                        <section class="panel ticketed" data-ticket="P02-T01">
+                            <div class="panel-header"><div class="panel-title-row"><h2>Registered sites</h2><p>No credentials are stored in this application</p></div></div>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead><tr><th>Site</th><th>Environment</th><th>Identity</th><th>Status</th><th></th></tr></thead>
+                                    <tbody>
+                                        <tr><td><span class="table-primary">Erste Jira Sandbox</span><span class="table-secondary">https://example-sandbox.atlassian.net</span></td><td>Test</td><td>jira-automation</td><td><span class="status success" id="connection-state">Healthy</span></td><td><button class="text-button ticketed" type="button" data-ticket="P02-T01" id="test-connection">Test</button></td></tr>
+                                        <tr><td><span class="table-primary">Delivery Development</span><span class="table-secondary">https://example-dev.atlassian.net</span></td><td>Development</td><td>jira-deployer-dev</td><td><span class="status success">Healthy</span></td><td><button class="text-button ticketed" type="button" data-ticket="P02-T01" data-toast="Connection details opened">Open</button></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                        <section class="panel ticketed" data-ticket="P02-T05">
+                            <div class="panel-header"><div class="panel-title-row"><h2>Capability snapshot</h2><p>Erste Jira Sandbox / checked 2m ago</p></div><button class="icon-button ticketed" type="button" data-ticket="P02-T05" data-toast="Capability discovery queued" aria-label="Refresh capabilities"><i data-lucide="refresh-cw"></i></button></div>
+                            <div class="panel-body capability-list">
+                                <div class="capability-item"><span>Project create and update</span><span class="status success">Supported</span></div>
+                                <div class="capability-item"><span>Workflow read</span><span class="status success">Supported</span></div>
+                                <div class="capability-item"><span>Workflow validator write</span><span class="status danger">Unavailable</span></div>
+                                <div class="capability-item"><span>Screen scheme association</span><span class="status warning">Permission</span></div>
+                                <div class="capability-item"><span>Issue batch transition</span><span class="status success">Supported</span></div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="view ticketed" data-panel="jobs" data-ticket="P03-T08">
+                    <div class="page-header">
+                        <div><div class="eyebrow">Durable execution</div><h1>Jobs</h1><p class="page-subtitle">Checkpointed deployment, validation, test-data, and batch operations.</p></div>
+                        <button class="button ticketed" type="button" data-ticket="P03-T08" data-toast="Job list refreshed"><i data-lucide="refresh-cw"></i>Refresh</button>
+                    </div>
+                    <div class="workspace-grid">
+                        <section class="panel ticketed" data-ticket="P03-T01">
+                            <div class="panel-header"><div class="panel-title-row"><h2>Execution queue</h2><p>1 running / 1 queued / 18 completed</p></div></div>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead><tr><th>Job</th><th>Type</th><th>Target</th><th>Status</th><th>Started</th></tr></thead>
+                                    <tbody>
+                                        <tr><td class="mono">JOB-2091</td><td>Deploy</td><td>DELIVERY</td><td><span class="status info">Running 62%</span></td><td>10:14</td></tr>
+                                        <tr><td class="mono">JOB-2092</td><td>Validation</td><td>ANALYTICS</td><td><span class="status neutral">Queued</span></td><td>-</td></tr>
+                                        <tr><td class="mono">JOB-2090</td><td>Cleanup</td><td>DELIVERY</td><td><span class="status success">Completed</span></td><td>09:31</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                        <section class="panel ticketed" data-ticket="P03-T08">
+                            <div class="panel-header"><div class="panel-title-row"><h2>JOB-2091</h2><p>Deploy DELIVERY / Plan PL-1042</p></div><span class="status info" id="job-status">Running</span></div>
+                            <div class="panel-body">
+                                <div class="progress-track" aria-label="Job progress"><div class="progress-bar" id="job-progress" style="--progress:62%"></div></div>
+                                <div style="display:flex;justify-content:space-between;margin:6px 0 12px;color:var(--ink-soft);font-size:9px"><span id="job-step-count">18 of 29 steps</span><span>4m 12s</span></div>
+                                <ol class="step-list">
+                                    <li class="step-item"><span class="step-icon"><i data-lucide="check"></i></span><span class="step-copy"><strong>Create project DELIVERY</strong><span>Verified / Jira project ID 10417</span></span><span class="mono">00:08</span></li>
+                                    <li class="step-item"><span class="step-icon"><i data-lucide="check"></i></span><span class="step-copy"><strong>Create requirement workflow</strong><span>Verified / Jira workflow ID 3012</span></span><span class="mono">00:41</span></li>
+                                    <li class="step-item"><span class="step-icon running"><i data-lucide="loader-circle"></i></span><span class="step-copy"><strong>Update Entities field context</strong><span>Attempt 1 / waiting for read-back</span></span><span class="mono">01:14</span></li>
+                                    <li class="step-item"><span class="step-icon pending"><i data-lucide="circle"></i></span><span class="step-copy"><strong>Associate workflow scheme</strong><span>Waiting for dependency</span></span><span class="mono">-</span></li>
+                                </ol>
+                            </div>
+                            <div class="panel-footer">
+                                <button class="button danger ticketed" type="button" data-ticket="P03-T02" data-toast="Cancellation requested"><i data-lucide="square"></i>Cancel job</button>
+                                <button class="button ticketed" type="button" data-ticket="P06-T04" data-toast="Run report prepared"><i data-lucide="download"></i>Export report</button>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="view ticketed" data-panel="validation" data-ticket="P05-T07">
+                    <div class="page-header">
+                        <div><div class="eyebrow">Evidence and drift</div><h1>Validation</h1><p class="page-subtitle">Configuration checks and optional workflow smoke tests against the selected Jira project.</p></div>
+                        <button class="button primary ticketed" type="button" data-ticket="P05-T04" data-toast="Validation run queued"><i data-lucide="play"></i>Run suite</button>
+                    </div>
+                    <div class="metric-grid">
+                        <article class="metric ticketed" data-ticket="P05-T04" style="--metric-color:var(--green)" tabindex="0"><div class="metric-head"><span>Passed</span><i data-lucide="circle-check"></i></div><div class="metric-value">19</div><div class="metric-note">Configuration and permission checks</div></article>
+                        <article class="metric ticketed" data-ticket="P05-T05" style="--metric-color:var(--amber)" tabindex="0"><div class="metric-head"><span>Warnings</span><i data-lucide="triangle-alert"></i></div><div class="metric-value">3</div><div class="metric-note">Review before production promotion</div></article>
+                        <article class="metric ticketed" data-ticket="P05-T05" style="--metric-color:var(--red)" tabindex="0"><div class="metric-head"><span>Failed</span><i data-lucide="circle-x"></i></div><div class="metric-value">1</div><div class="metric-note">Entities field differs</div></article>
+                        <article class="metric ticketed" data-ticket="P05-T06" style="--metric-color:var(--blue)" tabindex="0"><div class="metric-head"><span>Smoke checks</span><i data-lucide="route"></i></div><div class="metric-value">1/1</div><div class="metric-note">Temporary issue cleaned safely</div></article>
+                    </div>
+                    <section class="panel ticketed" data-ticket="P05-T07">
+                        <div class="panel-header">
+                            <div class="panel-title-row"><h2>Post-deployment / RUN-887</h2><p>Blueprint 0.1.0 / completed 09:31</p></div>
+                            <div class="segment-control ticketed" data-ticket="P05-T07"><button class="active" type="button" data-validation-filter="all" data-ticket="P05-T07">All</button><button type="button" data-validation-filter="fail" data-ticket="P05-T07">Failed</button><button type="button" data-validation-filter="warning" data-ticket="P05-T07">Warnings</button></div>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Result</th><th>Rule</th><th>Resource</th><th>Evidence</th><th>Remediation</th></tr></thead>
+                                <tbody id="validation-rows">
+                                    <tr data-result="fail"><td><span class="status danger">Fail</span></td><td class="mono">field.entities.matches</td><td>Entities</td><td>Expected 3 options / observed 5</td><td>Generate update plan</td></tr>
+                                    <tr data-result="warning"><td><span class="status warning">Warning</span></td><td class="mono">workflow.shared-impact</td><td>Requirement Workflow</td><td>Used by 2 other projects</td><td>Review project impact</td></tr>
+                                    <tr data-result="pass"><td><span class="status success">Pass</span></td><td class="mono">project.matches</td><td>DELIVERY</td><td>All normalized properties match</td><td>-</td></tr>
+                                    <tr data-result="pass"><td><span class="status success">Pass</span></td><td class="mono">requirement.transitionable</td><td>Requirement</td><td>New -> In Progress -> Done</td><td>-</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
+
+                <section class="view ticketed" data-panel="test-data" data-ticket="P05-T01">
+                    <div class="page-header">
+                        <div><div class="eyebrow">Sandbox evidence</div><h1>Test data</h1><p class="page-subtitle">Preview, seed, and safely clean traceable Jira issues from versioned packs.</p></div>
+                        <button class="button primary ticketed" type="button" data-ticket="P05-T01" data-toast="Test-data preview generated"><i data-lucide="scan-search"></i>Preview pack</button>
+                    </div>
+                    <div class="workspace-grid equal">
+                        <section class="panel ticketed" data-ticket="P05-T01">
+                            <div class="panel-header"><div class="panel-title-row"><h2>Requirement workflow smoke data</h2><p class="mono">smoke-requirement-flow</p></div><span class="status success">Valid</span></div>
+                            <div class="panel-body">
+                                <div class="field-grid">
+                                    <div class="field"><label>Target project</label><select class="select"><option>DELIVERY</option></select></div>
+                                    <div class="field"><label>Pack version</label><select class="select"><option>0.1.0</option></select></div>
+                                </div>
+                                <div class="plan-summary" style="margin:16px -16px -16px;border-top:1px solid var(--line);border-bottom:0">
+                                    <div class="plan-stat"><strong>50</strong><span>Issues</span></div><div class="plan-stat"><strong>42</strong><span>Links</span></div><div class="plan-stat"><strong>3</strong><span>Types</span></div><div class="plan-stat"><strong>0</strong><span>Blockers</span></div><div class="plan-stat"><strong>~2m</strong><span>Estimate</span></div>
+                                </div>
+                            </div>
+                            <div class="panel-footer"><span class="empty-inline">Creates a unique run marker on every issue.</span><button class="button primary ticketed" type="button" data-ticket="P05-T02" data-toast="Test-data job queued"><i data-lucide="flask-conical"></i>Create test data</button></div>
+                        </section>
+                        <section class="panel ticketed" data-ticket="P05-T03">
+                            <div class="panel-header"><div class="panel-title-row"><h2>Run SMOKE-441</h2><p>50 issues / created today at 08:48</p></div><span class="status success">Mapped</span></div>
+                            <div class="panel-body">
+                                <div class="notice"><i data-lucide="shield-check"></i><span>Cleanup requires connection, project, pack, run, durable mapping, and Jira entity property to match.</span></div>
+                                <div class="capability-list" style="margin-top:12px">
+                                    <div class="capability-item"><span>Durable mappings verified</span><strong>50 / 50</strong></div>
+                                    <div class="capability-item"><span>Entity properties verified</span><strong>50 / 50</strong></div>
+                                    <div class="capability-item"><span>Excluded control issues</span><strong>1</strong></div>
+                                </div>
+                            </div>
+                            <div class="panel-footer"><button class="button ticketed" type="button" data-ticket="P05-T03" data-toast="Cleanup preview prepared"><i data-lucide="eye"></i>Preview cleanup</button><button class="button danger ticketed" type="button" data-ticket="P05-T03" data-toast="Cleanup requires explicit approval"><i data-lucide="trash-2"></i>Clean this run</button></div>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="view ticketed" data-panel="batches" data-ticket="P06-T01">
+                    <div class="page-header">
+                        <div><div class="eyebrow">Controlled issue operations</div><h1>Batches and schedules</h1><p class="page-subtitle">Preview capped JQL actions, apply bounded execution policy, and schedule approved commands.</p></div>
+                        <button class="button ticketed" type="button" data-ticket="P06-T03" data-toast="Schedule form opened"><i data-lucide="calendar-plus"></i>New schedule</button>
+                    </div>
+                    <div class="workspace-grid equal">
+                        <section class="panel ticketed" data-ticket="P06-T01">
+                            <div class="panel-header"><div class="panel-title-row"><h2>Issue batch plan</h2><p>No mutation occurs during preview</p></div><span class="status neutral">Draft</span></div>
+                            <div class="panel-body field-grid">
+                                <div class="field full"><label for="jql">JQL selection</label><textarea class="textarea" id="jql">project = DELIVERY AND labels = "jira-deployer-test" AND statusCategory != Done</textarea></div>
+                                <div class="field"><label>Action</label><select class="select"><option>Add labels</option><option>Transition</option><option>Set fields</option><option>Add comment</option></select></div>
+                                <div class="field"><label>Maximum issues</label><input class="input mono" value="100"></div>
+                                <div class="field"><label>Rate per minute</label><input class="input mono" value="60"></div>
+                                <div class="field"><label>Stop failure percent</label><input class="input mono" value="10"></div>
+                            </div>
+                            <div class="panel-footer"><span class="empty-inline">Estimated target: 48 issues</span><button class="button primary ticketed" type="button" data-ticket="P06-T01" data-toast="JQL validated / 48 issues in scope"><i data-lucide="scan-search"></i>Preview 48 issues</button></div>
+                        </section>
+                        <div class="stack">
+                            <section class="panel ticketed" data-ticket="P06-T02">
+                                <div class="panel-header"><div class="panel-title-row"><h2>Latest batch</h2><p>BATCH-182 / Add smoke-open label</p></div><span class="status success">Completed</span></div>
+                                <div class="panel-body">
+                                    <div class="progress-track"><div class="progress-bar" style="--progress:100%"></div></div>
+                                    <div class="capability-list" style="margin-top:12px"><div class="capability-item"><span>Completed</span><strong>48</strong></div><div class="capability-item"><span>Failed</span><strong>0</strong></div><div class="capability-item"><span>Rate</span><strong>58/min</strong></div></div>
+                                </div>
+                            </section>
+                            <section class="panel ticketed" data-ticket="P06-T03">
+                                <div class="panel-header"><div class="panel-title-row"><h2>Weekly drift validation</h2><p>Monday 06:00 / Europe-Vienna</p></div><span class="status warning">Paused</span></div>
+                                <div class="panel-body"><div class="capability-list"><div class="capability-item"><span>Target</span><strong>DELIVERY</strong></div><div class="capability-item"><span>Overlap policy</span><strong>Skip</strong></div><div class="capability-item"><span>Last outcome</span><strong>Overlap skipped</strong></div></div></div>
+                                <div class="panel-footer"><button class="button ticketed" type="button" data-ticket="P06-T03" data-toast="Schedule enabled"><i data-lucide="play"></i>Enable</button><button class="button ticketed" type="button" data-ticket="P06-T03" data-toast="Schedule editor opened"><i data-lucide="pencil"></i>Edit</button></div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="view ticketed" data-panel="audit" data-ticket="P03-T08">
+                    <div class="page-header">
+                        <div><div class="eyebrow">Immutable evidence</div><h1>Audit trail</h1><p class="page-subtitle">Approvals, mutations, validations, cancellations, and exports correlated across every target.</p></div>
+                        <button class="button ticketed" type="button" data-ticket="P06-T04" data-toast="Audit report exported"><i data-lucide="download"></i>Export evidence</button>
+                    </div>
+                    <section class="panel ticketed" data-ticket="P03-T08">
+                        <div class="panel-header">
+                            <div class="filter-row">
+                                <select class="select" style="width:160px"><option>All event types</option><option>Approval</option><option>Mutation</option><option>Validation</option></select>
+                                <select class="select" style="width:160px"><option>All actors</option><option>Alex Morgan</option><option>Automation worker</option></select>
+                            </div>
+                            <span class="badge">248 events</span>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Time</th><th>Event</th><th>Actor</th><th>Target</th><th>Reference</th><th>Outcome</th></tr></thead>
+                                <tbody>
+                                    <tr><td class="mono">10:18:41</td><td>jira.mutation.verified</td><td>Automation worker</td><td>DELIVERY</td><td class="mono">JOB-2091 / STEP-18</td><td><span class="status success">Success</span></td></tr>
+                                    <tr><td class="mono">10:14:02</td><td>plan.execution.started</td><td>Alex Morgan</td><td>DELIVERY</td><td class="mono">PL-1042</td><td><span class="status info">Running</span></td></tr>
+                                    <tr><td class="mono">10:13:44</td><td>plan.approved</td><td>Alex Morgan</td><td>DELIVERY</td><td class="mono">7b2c...d941</td><td><span class="status success">Approved</span></td></tr>
+                                    <tr><td class="mono">09:31:22</td><td>validation.completed</td><td>Automation worker</td><td>DELIVERY</td><td class="mono">RUN-887</td><td><span class="status warning">1 failure</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div class="ticket-tooltip" id="ticket-tooltip" role="tooltip" aria-hidden="true">
+        <span class="tooltip-code" id="tooltip-code"></span>
+        <span class="tooltip-title" id="tooltip-title"></span>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <i data-lucide="circle-check"></i>
+        <span><strong id="toast-title">Action complete</strong><span id="toast-copy">This is an interactive design prototype.</span></span>
+        <i data-lucide="x" style="width:14px;height:14px;color:#aebdb8"></i>
+    </div>
+
+    <script>
+        const ticketTitles = {
+            "P01-T03": "Add Application Roles",
+            "P01-T05": "Build Application Shell",
+            "P01-T06": "Build Operator Overview",
+            "P01-T07": "Build Project Workspace",
+            "P02-T01": "Manage Jira Connections",
+            "P02-T02": "Ingest and Validate Blueprints",
+            "P02-T03": "Validate Typed Resource Properties",
+            "P02-T05": "Discover and Normalize Jira State",
+            "P02-T06": "Generate Immutable Plans",
+            "P02-T07": "Build Selection and Plan Review UI",
+            "P03-T01": "Persist Jobs and Checkpoints",
+            "P03-T02": "Control Concurrent Execution",
+            "P03-T04": "Deploy Jira Project",
+            "P03-T07": "Guard Plan Execution",
+            "P03-T08": "Show Progress and Audit Evidence",
+            "P04-T01": "Protect Shared Jira Resources",
+            "P04-T02": "Deploy Issue Types and Scheme",
+            "P04-T03": "Deploy Statuses and Workflows",
+            "P04-T04": "Deploy Custom Fields and Contexts",
+            "P04-T05": "Deploy Screens and Screen Schemes",
+            "P04-T06": "Associate Project Schemes",
+            "P05-T01": "Plan Test-Data Packs",
+            "P05-T02": "Create and Map Test Data",
+            "P05-T03": "Clean One Test-Data Run",
+            "P05-T04": "Run Static Validation Suites",
+            "P05-T05": "Detect Configuration Drift",
+            "P05-T06": "Run Workflow Smoke Validation",
+            "P05-T07": "Show Validation Evidence",
+            "P06-T01": "Plan Issue Batches",
+            "P06-T02": "Execute Issue Batches Safely",
+            "P06-T03": "Schedule Jobs and Prevent Overlap",
+            "P06-T04": "Export Run Reports",
+            "P06-T06": "Add Observability and Recovery Controls"
+        };
+
+        const viewNames = {
+            overview: "Portfolio dashboard",
+            projects: "Projects",
+            project: "Project workspace",
+            deploy: "Project setup",
+            blueprints: "Blueprints",
+            connections: "Connections",
+            jobs: "Jobs",
+            validation: "Validation",
+            "test-data": "Test data",
+            batches: "Batches",
+            audit: "Audit"
+        };
+
+        const sidebar = document.getElementById("sidebar");
+        const sidebarScrim = document.getElementById("sidebar-scrim");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const tooltip = document.getElementById("ticket-tooltip");
+        const tooltipCode = document.getElementById("tooltip-code");
+        const tooltipTitle = document.getElementById("tooltip-title");
+        const toast = document.getElementById("toast");
+        const toastTitle = document.getElementById("toast-title");
+        let toastTimer;
+
+        function refreshIcons() {
+            if (window.lucide) {
+                window.lucide.createIcons({ attrs: { "aria-hidden": "true" } });
+            }
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove("open");
+            sidebarScrim.classList.remove("visible");
+            mobileMenu.setAttribute("aria-expanded", "false");
+        }
+
+        function openView(viewName, projectScoped = viewName === "project" || viewName === "deploy") {
+            document.querySelectorAll("[data-panel]").forEach((panel) => {
+                panel.classList.toggle("active", panel.dataset.panel === viewName);
+            });
+            document.querySelectorAll(".nav-item[data-view]").forEach((item) => {
+                const isActive = item.dataset.view === viewName || (viewName === "project" && item.dataset.view === "projects");
+                item.classList.toggle("active", isActive);
+                item.setAttribute("aria-current", isActive ? "page" : "false");
+            });
+            document.getElementById("breadcrumb-current").textContent = viewNames[viewName] || viewName;
+            document.title = `${viewNames[viewName] || "Workspace"} - Jira Project Deployer`;
+            const scopeLabel = document.getElementById("scope-label");
+            const scopeTag = document.getElementById("scope-tag");
+            const scopeSwitcher = document.getElementById("scope-switcher");
+            if (projectScoped) {
+                const projectKey = document.getElementById("project-eyebrow").textContent.replace("Project / ", "");
+                scopeLabel.innerHTML = `<strong>Erste Jira Sandbox</strong> / ${projectKey}`;
+                scopeTag.textContent = "TEST";
+                scopeSwitcher.dataset.ticket = "P01-T07";
+            } else {
+                scopeLabel.innerHTML = "<strong>Portfolio</strong> / All Jira projects";
+                scopeTag.textContent = "4 PROJECTS";
+                scopeSwitcher.dataset.ticket = "P01-T06";
+            }
+            closeSidebar();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function showToast(message, detail = "This is an interactive design prototype.") {
+            window.clearTimeout(toastTimer);
+            toastTitle.textContent = message;
+            document.getElementById("toast-copy").textContent = detail;
+            toast.classList.add("visible");
+            toastTimer = window.setTimeout(() => toast.classList.remove("visible"), 2600);
+        }
+
+        function positionTooltip(event) {
+            const gap = 14;
+            const bounds = tooltip.getBoundingClientRect();
+            let left = event.clientX + gap;
+            let top = event.clientY + gap;
+            if (left + bounds.width > window.innerWidth - 8) left = event.clientX - bounds.width - gap;
+            if (top + bounds.height > window.innerHeight - 8) top = event.clientY - bounds.height - gap;
+            tooltip.style.left = `${Math.max(8, left)}px`;
+            tooltip.style.top = `${Math.max(8, top)}px`;
+        }
+
+        function showTicket(element, event) {
+            const code = element.dataset.ticket;
+            tooltipCode.textContent = code;
+            tooltipTitle.textContent = ticketTitles[code] || "Backlog delivery ticket";
+            tooltip.classList.add("visible");
+            tooltip.setAttribute("aria-hidden", "false");
+            if (event) positionTooltip(event);
+        }
+
+        function hideTicket() {
+            tooltip.classList.remove("visible");
+            tooltip.setAttribute("aria-hidden", "true");
+        }
+
+        document.querySelectorAll(".nav-item[data-view]").forEach((item) => {
+            item.addEventListener("click", () => openView(item.dataset.view, false));
+        });
+
+        document.querySelectorAll("[data-go-view]").forEach((item) => {
+            item.addEventListener("click", () => openView(item.dataset.goView, item.dataset.scope === "project"));
+        });
+
+        document.querySelectorAll("[data-open-project]").forEach((item) => {
+            item.addEventListener("click", () => {
+                const projectKey = item.dataset.openProject;
+                const projects = {
+                    DELIVERY: { name: "Delivery Platform", site: "Erste Jira Sandbox", type: "Company-managed software project" },
+                    ANALYTICS: { name: "Analytics Workspace", site: "Delivery Development", type: "Company-managed software project" },
+                    RISK: { name: "Risk Governance", site: "Erste Jira Sandbox", type: "Company-managed business project" },
+                    DICOPS: { name: "DIC Operations", site: "Group Jira Test", type: "Company-managed software project" }
+                };
+                const project = projects[projectKey];
+                document.getElementById("project-key-block").textContent = projectKey.slice(0, 3);
+                document.getElementById("project-eyebrow").textContent = `Project / ${projectKey}`;
+                document.getElementById("project-name").textContent = project.name;
+                document.getElementById("project-subtitle").textContent = `${project.type} / ${project.site}`;
+                openView("project", true);
+            });
+        });
+
+        document.querySelectorAll("[data-project-tab]").forEach((tab) => {
+            tab.addEventListener("click", () => {
+                document.querySelectorAll("[data-project-tab]").forEach((item) => {
+                    const active = item === tab;
+                    item.classList.toggle("active", active);
+                    item.setAttribute("aria-selected", String(active));
+                });
+                document.querySelectorAll("[data-project-panel]").forEach((panel) => {
+                    panel.classList.toggle("active", panel.dataset.projectPanel === tab.dataset.projectTab);
+                });
+            });
+        });
+
+        document.querySelectorAll("[data-toast]").forEach((item) => {
+            item.addEventListener("click", () => showToast(item.dataset.toast));
+        });
+
+        mobileMenu.addEventListener("click", () => {
+            const shouldOpen = !sidebar.classList.contains("open");
+            sidebar.classList.toggle("open", shouldOpen);
+            sidebarScrim.classList.toggle("visible", shouldOpen);
+            mobileMenu.setAttribute("aria-expanded", String(shouldOpen));
+        });
+        sidebarScrim.addEventListener("click", closeSidebar);
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeSidebar();
+                hideTicket();
+            }
+        });
+
+        document.addEventListener("pointermove", (event) => {
+            const target = event.target.closest("[data-ticket]");
+            if (!target) {
+                hideTicket();
+                return;
+            }
+            showTicket(target, event);
+        });
+        document.addEventListener("pointerleave", hideTicket);
+        document.addEventListener("focusin", (event) => {
+            const target = event.target.closest("[data-ticket]");
+            if (!target) return;
+            const bounds = target.getBoundingClientRect();
+            showTicket(target, { clientX: bounds.left + bounds.width / 2, clientY: bounds.bottom });
+        });
+        document.addEventListener("focusout", hideTicket);
+
+        document.querySelectorAll(".resource-check").forEach((checkbox) => {
+            checkbox.addEventListener("change", () => {
+                const count = document.querySelectorAll(".resource-check:checked").length;
+                document.getElementById("selected-count").textContent = count;
+                document.getElementById("step-selected").textContent = `${count} resources`;
+            });
+        });
+
+        document.getElementById("select-all").addEventListener("click", () => {
+            document.querySelectorAll(".resource-check:not(:disabled)").forEach((checkbox) => { checkbox.checked = true; });
+            const count = document.querySelectorAll(".resource-check:checked").length;
+            document.getElementById("selected-count").textContent = count;
+            document.getElementById("step-selected").textContent = `${count} resources`;
+            showToast("All available resources selected");
+        });
+
+        document.querySelectorAll("[data-plan-filter]").forEach((button) => {
+            button.addEventListener("click", () => {
+                document.querySelectorAll("[data-plan-filter]").forEach((item) => item.classList.remove("active"));
+                button.classList.add("active");
+                const filter = button.dataset.planFilter;
+                document.querySelectorAll("#plan-rows tr").forEach((row) => {
+                    row.hidden = filter !== "all" && row.dataset.kind !== filter;
+                });
+            });
+        });
+
+        document.querySelectorAll("[data-validation-filter]").forEach((button) => {
+            button.addEventListener("click", () => {
+                document.querySelectorAll("[data-validation-filter]").forEach((item) => item.classList.remove("active"));
+                button.classList.add("active");
+                const filter = button.dataset.validationFilter;
+                document.querySelectorAll("#validation-rows tr").forEach((row) => {
+                    row.hidden = filter !== "all" && row.dataset.result !== filter;
+                });
+            });
+        });
+
+        document.getElementById("generate-plan").addEventListener("click", () => {
+            showToast("Dry-run plan refreshed", "13 resources compared against Jira Sandbox.");
+        });
+
+        document.getElementById("approve-plan").addEventListener("click", (event) => {
+            event.currentTarget.innerHTML = '<i data-lucide="badge-check"></i>Approved';
+            event.currentTarget.disabled = true;
+            document.getElementById("execute-plan").disabled = false;
+            document.getElementById("approval-title").textContent = "Plan approved by Alex Morgan";
+            document.getElementById("approval-note").textContent = "Approval is bound to checksum 7b2c...d941 and the current target fingerprint.";
+            showToast("Plan approved", "Execution is now available for this immutable plan.");
+            refreshIcons();
+        });
+
+        document.getElementById("execute-plan").addEventListener("click", () => {
+            openView("jobs");
+            showToast("Deployment job queued", "JOB-2091 is checkpointed and target-locked.");
+        });
+
+        document.getElementById("test-connection").addEventListener("click", () => {
+            const state = document.getElementById("connection-state");
+            state.textContent = "Checking";
+            state.className = "status info";
+            window.setTimeout(() => {
+                state.textContent = "Healthy";
+                state.className = "status success";
+                showToast("Connection verified", "Identity, permission, and site checks passed.");
+            }, 650);
+        });
+
+        window.addEventListener("DOMContentLoaded", refreshIcons);
+    </script>
+</body>
+</html>

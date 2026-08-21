@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/jira-project-blueprint.schema.json",
+  "title": "Jira Project Blueprint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": {
+      "const": "jira-deployer/v1alpha1"
+    },
+    "kind": {
+      "const": "JiraProjectBlueprint"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "version"],
+      "properties": {
+        "id": { "$ref": "#/$defs/logicalId" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "version": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "labels": {
+          "type": "object",
+          "additionalProperties": { "type": "string", "maxLength": 255 }
+        }
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/parameter" }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resources"],
+      "properties": {
+        "resources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/resource" }
+        },
+        "testDataPacks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/testDataPack" }
+        },
+        "validationSuites": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/validationSuite" }
+        },
+        "batches": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/batch" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "logicalId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "reference": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "enum": ["string", "integer", "boolean", "jiraAccountId", "projectKey"]
+        },
+        "description": { "type": "string", "maxLength": 1000 },
+        "required": { "type": "boolean", "default": false },
+        "default": {},
+        "pattern": { "type": "string", "maxLength": 500 },
+        "sensitive": { "type": "boolean", "const": false }
+      }
+    },
+    "resource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "scope", "properties"],
+      "properties": {
+        "id": { "$ref": "#/$defs/logicalId" },
+        "type": {
+          "enum": [
+            "project",
+            "projectRole",
+            "issueType",
+            "issueTypeScheme",
+            "status",
+            "workflow",
+            "workflowScheme",
+            "customField",
+            "fieldContext",
+            "screen",
+            "screenScheme",
+            "issueTypeScreenScheme",
+            "fieldConfiguration",
+            "fieldConfigurationScheme",
+            "priority",
+            "resolution",
+            "component",
+            "version",
+            "permissionScheme",
+            "notificationScheme",
+            "issueSecurityScheme",
+            "filter",
+            "dashboard"
+          ]
+        },
+        "scope": {
+          "enum": ["global", "project"]
+        },
+        "desired": {
+          "enum": ["present"],
+          "default": "present"
+        },
+        "dependsOn": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/reference" }
+        },
+        "properties": {
+          "type": "object"
+        }
+      }
+    },
+    "testDataPack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "issues"],
+      "properties": {
+        "id": { "$ref": "#/$defs/logicalId" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "issueTypeRef", "fields"],
+            "properties": {
+              "id": { "$ref": "#/$defs/logicalId" },
+              "issueTypeRef": { "$ref": "#/$defs/reference" },
+              "fields": { "type": "object" }
+            }
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "from", "to"],
+            "properties": {
+              "type": { "type": "string", "minLength": 1, "maxLength": 255 },
+              "from": { "$ref": "#/$defs/reference" },
+              "to": { "$ref": "#/$defs/reference" }
+            }
+          }
+        }
+      }
+    },
+    "validationSuite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "rules"],
+      "properties": {
+        "id": { "$ref": "#/$defs/logicalId" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "type", "severity"],
+            "properties": {
+              "id": { "$ref": "#/$defs/logicalId" },
+              "type": {
+                "enum": ["resourceMatches", "workflowReachable", "issueCreateable", "issueTransitionable"]
+              },
+              "severity": { "enum": ["warning", "error"] },
+              "resourceRef": { "$ref": "#/$defs/reference" },
+              "config": { "type": "object" }
+            }
+          }
+        }
+      }
+    },
+    "batch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "jql", "action", "limits"],
+      "properties": {
+        "id": { "$ref": "#/$defs/logicalId" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "jql": { "type": "string", "minLength": 1, "maxLength": 5000 },
+        "action": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "enum": ["transition", "setFields", "addComment", "addLabels"] },
+            "transitionName": { "type": "string", "maxLength": 255 },
+            "fields": { "type": "object" },
+            "comment": { "type": "string", "maxLength": 32000 },
+            "labels": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "type": "string", "minLength": 1, "maxLength": 255 }
+            }
+          }
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maxIssues", "ratePerMinute", "stopFailurePercent"],
+          "properties": {
+            "maxIssues": { "type": "integer", "minimum": 1, "maximum": 100000 },
+            "ratePerMinute": { "type": "integer", "minimum": 1, "maximum": 10000 },
+            "stopFailurePercent": { "type": "number", "minimum": 0, "maximum": 100 }
+          }
+        }
+      }
+    }
+  }
+}
