@@ -54,7 +54,7 @@ Reads immutable execution history: who ran what, against which site and project,
 
 ### FR-01: Jira Connections
 
-An administrator can register a Jira Cloud site, authenticate it, test connectivity, and see the permissions and API capabilities available to the application.
+From Settings > Jira connections, an administrator can register a Jira Cloud site, authenticate it, test connectivity, and see the permissions and API capabilities available to the application. Connections are governed with credentials, access, and offline policy rather than exposed as a separate top-level workspace.
 
 ### FR-02: Blueprint Management
 
@@ -256,7 +256,7 @@ The draft records source connection, Jira project ID and key, discovery snapshot
 
 ### Rotate a Jira API Token
 
-1. Open Settings and select the Jira connection.
+1. Open Settings > Jira connections and select the Jira site, then open its Credentials section.
 2. Review active secret-store metadata without seeing the token value.
 3. Enter a replacement token as an expiring candidate.
 4. Test the candidate identity, site, scopes, permissions, and representative reads.

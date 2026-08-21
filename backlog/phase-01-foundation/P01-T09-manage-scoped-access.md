@@ -22,8 +22,9 @@ Administrators can map OIDC groups and time-bounded direct exceptions to applica
 - [ ] Administrator scope is global; viewer, operator, and approver can be limited to connections or projects.
 - [ ] Expired, suspended, disabled, or removed assignments stop authorizing immediately.
 - [ ] The last active administrator cannot remove or expire their own final administrative path.
-- [ ] Assignment preview shows source group or direct exception, role, scope, start, expiry, and resulting permissions before save.
+- [ ] Assignment preview shows identity, source group or direct exception, owner, role, scope, start, expiry, before and after effective permissions, conflicts or redundant no-op status, affected sessions, and reason before save.
+- [ ] Changing any role, scope, expiry, or reason after preview disables save until effective access is recalculated server-side.
 
 ## Evidence
 
-- [ ] Role matrix, group mapping, direct exception, scope isolation, expiry, last-administrator, preview, and audit tests.
+- [ ] Role matrix, group mapping, direct exception, scope isolation, expiry, last-administrator, before/after preview, redundant-assignment, stale-preview, affected-session, and audit tests.

@@ -13,15 +13,17 @@ Operators can monitor a job and auditors can trace every approval and mutation.
 
 ## Work
 
-- Add HTMX-polled job pages with ordered step state and actionable failure details.
-- Add append-only audit events for plan, approval, dispatch, Jira mutation, cancellation, and result.
+- Add HTMX-polled job list and detail pages with progressbar semantics, ordered step state, retry/cancellation state, and actionable failure details.
+- Add a filterable append-only audit view for plan, approval, dispatch, Jira mutation, cancellation request and acknowledgment, validation, export, and result events.
 
 ## Success Criteria
 
 - [ ] Refreshing or reconnecting does not lose or reorder displayed progress.
+- [ ] Job detail identifies connection, project, plan, progress count, active step, attempt, elapsed time, and requested versus acknowledged cancellation state.
 - [ ] Audit events identify actor, target, blueprint checksum, job, step, time, and outcome.
+- [ ] Events with the same timestamp retain deterministic append order and cancellation request and acknowledgment remain separate attributable events.
 - [ ] Diagnostics and rendered pages expose no secret value.
 
 ## Evidence
 
-- [ ] View, polling, audit immutability, ordering, and redaction tests plus QA screenshot.
+- [ ] View, polling, progress semantics, cancellation-state, audit immutability, ordering, filtering, and redaction tests plus QA screenshots.

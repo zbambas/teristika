@@ -15,13 +15,15 @@ An approved batch executes at a bounded rate with resumable per-issue outcomes.
 
 - Execute the frozen action by Jira page with rate, retry, cancellation, and failure-threshold controls.
 - Store only issue ID, outcome, attempt count, error class, and correlation ID.
+- Require an attributable execution confirmation bound to the immutable preview checksum and showing target, action, count and sample, limits, stop policy, exclusions, and recovery boundary.
 
 ## Success Criteria
 
 - [ ] Rate and maximum issue count cannot exceed the approved plan.
+- [ ] No Jira mutation occurs before confirmation, and stale or mismatched preview input cannot create a batch job.
 - [ ] Retry resumes failed or incomplete issues without repeating completed idempotent actions.
 - [ ] Execution stops when cancellation or the approved permanent-failure threshold is reached.
 
 ## Evidence
 
-- [ ] Rate, resume, idempotency, cancellation, threshold, and data-minimization tests.
+- [ ] Confirmation, stale-preview, rate, resume, idempotency, cancellation, threshold, and data-minimization tests.

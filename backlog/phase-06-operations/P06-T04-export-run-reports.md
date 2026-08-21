@@ -19,9 +19,9 @@ Authorized users can export stable JSON and human-readable run evidence.
 ## Success Criteria
 
 - [ ] JSON output validates against a versioned report schema.
-- [ ] Human-readable output contains the same result totals and identifiers.
+- [ ] HTML is the minimum human-readable MVP format and contains the same result totals, identifiers, actor, target, blueprint version, and timestamp as the JSON export; PDF may be added without changing content.
 - [ ] Unauthorized users receive `403`; exports contain no configured secret values.
 
 ## Evidence
 
-- [ ] Schema, totals, authorization, audit, and redaction tests with sample exports.
+- [ ] Schema, JSON-to-HTML parity, totals, authorization, audit, and redaction tests with sample exports.

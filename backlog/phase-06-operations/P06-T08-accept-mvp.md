@@ -24,4 +24,4 @@ The Product Owner has enough operational and quality evidence to accept or rejec
 
 ## Evidence
 
-- [ ] Signed MVP acceptance record and reviewed operator exercise report.
+- [ ] Dated MVP acceptance record identifies Product Owner, release revision, criterion-to-evidence mapping, accepted exceptions with owner and due date, and explicit accept or reject decision; Senior QA's reviewed operator exercise report is linked from the same record.

@@ -19,9 +19,9 @@ The integrated Django application satisfies the critical MVP workflows in the Ji
 ## Success Criteria
 
 - [ ] Every critical scenario passes from a clean test environment.
-- [ ] No production Jira site or shared test database is used.
-- [ ] No unresolved critical or high defect remains.
+- [ ] The verification report records a Jira sandbox/test-domain assertion and a local or isolated test-database assertion before scenarios run; no production Jira site or shared database is used.
+- [ ] No unresolved defect remains that blocks a listed critical scenario, permits unauthorized mutation or data access, exposes a secret, or lacks a documented operator workaround accepted by the Product Owner.
 
 ## Evidence
 
-- [ ] Versioned system, accessibility, and responsive verification report.
+- [ ] Versioned system, environment-isolation, defect-triage, accessibility, and responsive verification report.

@@ -22,8 +22,9 @@ Selected reference-project configuration becomes a provenance-linked, validated 
 - [ ] Jira object IDs remain provenance or mapping metadata and are not used as portable logical IDs.
 - [ ] Environment-specific project key, name, lead, and approved values become explicit parameters; secrets never enter the draft.
 - [ ] The review shows selected, automatic dependency, shared, reference-only, unsupported, inaccessible, and omitted counts before draft creation.
+- [ ] Final review identifies the exact source connection, project ID and key, discovery snapshot, affected projects, explicit shared-resource decisions, and transformation warnings carried into the draft.
 - [ ] Draft creation is blocked by unresolved ambiguity or validation errors and never publishes automatically.
 
 ## Evidence
 
-- [ ] Determinism, logical-ID, dependency, parameterization, provenance, classification, validation-guard, redaction, editor-routing, and sandbox capture tests.
+- [ ] Determinism, logical-ID, dependency, parameterization, source-provenance, affected-project, classification, validation-guard, redaction, editor-routing, and sandbox capture tests.

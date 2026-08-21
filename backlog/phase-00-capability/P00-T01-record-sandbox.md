@@ -19,9 +19,9 @@ The capability proof has an approved, disposable Jira Cloud target and named own
 ## Success Criteria
 
 - [ ] All prerequisite fields are recorded in `docs/jira-capability-matrix.md`.
-- [ ] The owner confirms that project creation and cleanup tests are allowed.
+- [ ] A dated written approval identifies the sandbox owner and explicitly permits project creation, mutation probes, and cleanup tests within the recorded boundary.
 - [ ] Missing access is listed as a blocker rather than assumed.
 
 ## Evidence
 
-- [ ] Senior QA records the approved prerequisite review without credentials.
+- [ ] Senior QA records the approved prerequisite review and approval reference without credentials.

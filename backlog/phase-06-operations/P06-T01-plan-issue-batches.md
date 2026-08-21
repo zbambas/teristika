@@ -21,7 +21,9 @@ An operator can preview a bounded JQL issue batch before any issue changes.
 - [ ] Invalid JQL, action properties, or unavailable transitions block approval.
 - [ ] A count above `maxIssues` blocks approval.
 - [ ] Preview sends no Jira mutation request and does not persist sampled issue content.
+- [ ] Preview identifies target, frozen JQL and action, total count, bounded representative sample, exclusions, maximum, rate, failure threshold, target fingerprint, and preview checksum.
+- [ ] Changing JQL, action, target, maximum, rate, or failure threshold invalidates the preview and disables execution until previewed again.
 
 ## Evidence
 
-- [ ] JQL, action-schema, over-limit, privacy, and read-only tests.
+- [ ] JQL, action-schema, over-limit, preview-payload, stale-preview, privacy, and read-only tests.

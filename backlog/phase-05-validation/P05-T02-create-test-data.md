@@ -20,8 +20,8 @@ An approved pack creates traceable issues and then resolves their links determin
 
 - [ ] At least 50 linked issues can be created from one pack.
 - [ ] Every issue has the expected run marker and durable mapping.
-- [ ] Retrying after interruption creates no duplicate issue or link.
+- [ ] Retrying after interruption reuses mapped issues and resumes at the first unresolved link or comment without creating a duplicate issue or link; partial work never appears complete.
 
 ## Evidence
 
-- [ ] Two-phase creation, interruption, retry, marker, and mapping tests plus sandbox report.
+- [ ] Two-phase creation, issue-phase interruption, link-phase interruption, retry, marker, mapping, and incomplete-state tests plus sandbox report.

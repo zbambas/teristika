@@ -19,7 +19,8 @@ Every proposed MVP Jira resource has verified read and mutation capabilities.
 ## Success Criteria
 
 - [ ] Each resource is classified as create, update, associate, read-only, or unavailable.
-- [ ] Successful mutations are read back and removed from the sandbox when supported.
+- [ ] Each successful mutation is read back and its Jira ID and capability-relevant properties match the request.
+- [ ] Every created probe resource is removed from the sandbox, or the matrix records that no supported deletion operation exists plus the owner's approved cleanup disposition.
 - [ ] Undocumented endpoints are not used.
 
 ## Evidence

@@ -38,7 +38,7 @@ Goal: connect a site, ingest a blueprint, and produce an explainable plan withou
 | P01-T08 | P0 | M | Synchronize OIDC identities | Trusted issuer/subject and group claims update identities without local production passwords |
 | P01-T09 | P0 | L | Manage scoped roles and groups | Group mappings and direct exceptions produce previewable global, connection, and project access |
 | P01-T10 | P0 | L | Review and revoke user access | Administrators inspect effective access, revoke sessions, suspend access, and certify assignments |
-| CON-01 | P0 | M | Manage Jira connection metadata | Administrator can add a site and secret reference, test it, and see a redacted result |
+| CON-01 | P0 | M | Manage Jira connection metadata | From Settings > Jira connections, an administrator can add a site and secret reference, test it, and see a redacted result |
 | CON-02 | P0 | L | Discover Jira capabilities | UI distinguishes supported, permission-denied, API-unavailable, and adapter-not-implemented capabilities |
 | P02-T10 | P0 | M | Build Jira credential settings | Administrator stages secret values directly in the external secret store and sees metadata only |
 | P02-T11 | P0 | M | Test and rotate Jira credentials | Candidate access is classified and only an explicitly confirmed tested version can activate |

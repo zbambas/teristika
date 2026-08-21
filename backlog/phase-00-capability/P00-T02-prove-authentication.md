@@ -18,8 +18,8 @@ One approved authentication method can call the sandbox with known scopes and pe
 
 ## Success Criteria
 
-- [ ] The selected method returns the expected identity or site response.
-- [ ] Invalid credentials produce the expected sanitized failure.
+- [ ] The selected method returns an authenticated account and Jira site identity that match the recorded sandbox, scopes, and permissions.
+- [ ] Invalid credentials produce a classified authentication or authorization failure whose stored and rendered evidence is sanitized.
 - [ ] No credential value appears in source, shell history evidence, logs, or fixtures.
 
 ## Evidence

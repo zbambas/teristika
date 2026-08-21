@@ -19,10 +19,11 @@ An administrator can test a staged Jira credential and explicitly activate it on
 ## Success Criteria
 
 - [ ] Testing distinguishes invalid credential, insufficient scope, insufficient Jira permission, wrong site, rate limit, timeout, and unavailable Jira.
-- [ ] Only the tested candidate version can be activated and activation requires explicit confirmation.
+- [ ] Only the exact tested candidate ID and version can be activated; it remains bound to the tested connection, authentication type, returned identity, secret fingerprint, and expiry metadata.
+- [ ] Activation confirmation identifies the candidate, connection, returned identity, fingerprint, and active version being replaced, then updates only that connection's active credential record.
 - [ ] Failed or expired candidates cannot activate and leave the active secret reference unchanged.
 - [ ] Test and activation responses, logs, audit, and diagnostics reveal no token or authorization value.
 
 ## Evidence
 
-- [ ] Success and failure contract fixtures, stale-candidate, activation, rollback-preservation, rate-limit, redaction, and audit tests.
+- [ ] Success and failure contract fixtures, returned-identity, cross-connection isolation, stale-candidate, activation, rollback-preservation, rate-limit, redaction, and audit tests.

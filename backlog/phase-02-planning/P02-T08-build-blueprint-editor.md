@@ -20,9 +20,10 @@ An authorized configuration owner can create or clone a blueprint draft and publ
 
 - [ ] Creating and cloning produce separate drafts without changing the source version.
 - [ ] Stable logical resource IDs, dependencies, and parameter placeholders round-trip between structured and raw views.
-- [ ] Publishing requires an unused version, valid content, explicit confirmation, and configuration-owner permission.
+- [ ] Publishing requires an unused version, valid content, explicit confirmation, configuration-owner permission, the exact validation-run identifier, and recorded warning acknowledgements.
 - [ ] Concurrent draft edits are detected and cannot silently overwrite newer content.
+- [ ] Any navigation, browser-history, or close attempt away from a dirty draft requires discard confirmation or preserves the draft for later recovery.
 
 ## Evidence
 
-- [ ] Draft, clone, round-trip, version, authorization, concurrency, keyboard, and responsive tests plus Senior QA screenshots.
+- [ ] Draft, clone, round-trip, version, validation-evidence, warning-acknowledgement, dirty-route, authorization, concurrency, keyboard, and responsive tests plus Senior QA screenshots.

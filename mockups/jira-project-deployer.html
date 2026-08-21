@@ -405,6 +405,21 @@
             animation: none;
         }
 
+        .no-js .project-tab-panel,
+        .no-js .settings-panel,
+        .no-js .user-admin-content,
+        .no-js .editor-mode-content,
+        .no-js .diagram-view {
+            display: block;
+            margin-bottom: 24px;
+            animation: none;
+        }
+
+        .no-js [role="tablist"],
+        .no-js [role="radiogroup"] {
+            display: none;
+        }
+
         @keyframes view-in {
             from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
@@ -3256,7 +3271,7 @@
             font-size: 10px;
         }
 
-        .view.fixture-active > :not(.page-header):not(.state-fixture-banner) {
+        .view.fixture-replaces-data > :not(.page-header):not(.state-fixture-banner) {
             display: none !important;
         }
 
@@ -3775,10 +3790,6 @@
                 <a class="nav-item ticketed" href="#blueprints" data-view="blueprints" data-ticket="P02-T02">
                     <i data-lucide="layers-3"></i><span>Blueprints</span>
                 </a>
-                <a class="nav-item ticketed" href="#connections" data-view="connections" data-ticket="P02-T01">
-                    <i data-lucide="plug-zap"></i><span>Connections</span>
-                </a>
-
                 <div class="nav-label">Operate</div>
                 <a class="nav-item ticketed" href="#jobs" data-view="jobs" data-ticket="P03-T08">
                     <i data-lucide="activity"></i><span>Jobs</span><span class="count">1</span>
@@ -4291,49 +4302,44 @@ logicalIdStrategy: type + normalized stable name</div></div>
                     </div>
                 </section>
 
-                <section class="view ticketed" id="connections" data-panel="connections" data-ticket="P02-T01">
-                    <div class="page-header">
-                        <div><div class="eyebrow">Jira Cloud targets</div><h1>Connections</h1><p class="page-subtitle">Site identity, credential references, permissions, and discovered API capabilities.</p></div>
-                        <button class="button primary ticketed" type="button" data-ticket="P02-T01" data-toast="New connection form opened"><i data-lucide="plus"></i>Add connection</button>
-                    </div>
-                    <div class="workspace-grid">
-                        <section class="panel ticketed" data-ticket="P02-T01">
-                            <div class="panel-header"><div class="panel-title-row"><h2>Registered sites</h2><p>No credentials are stored in this application</p></div></div>
-                            <div class="table-wrap">
-                                <table>
-                                    <thead><tr><th>Site</th><th>Environment</th><th>Identity</th><th>Status</th><th></th></tr></thead>
-                                    <tbody>
-                                        <tr><td><span class="table-primary">Erste Jira Sandbox</span><span class="table-secondary">https://example-sandbox.atlassian.net</span></td><td>Test</td><td>jira-automation</td><td><span class="status success" id="connection-state">Healthy</span></td><td><div class="button-row"><button class="text-button ticketed" type="button" data-ticket="P02-T01" id="test-connection">Test</button><button class="text-button ticketed" type="button" data-ticket="P02-T10" data-open-settings="credentials">Credentials</button></div></td></tr>
-                                        <tr><td><span class="table-primary">Delivery Development</span><span class="table-secondary">https://example-dev.atlassian.net</span></td><td>Development</td><td>jira-deployer-dev</td><td><span class="status success">Healthy</span></td><td><button class="text-button ticketed" type="button" data-ticket="P02-T01" data-toast="Connection details opened">Open</button></td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </section>
-                        <section class="panel ticketed" data-ticket="P02-T05">
-                            <div class="panel-header"><div class="panel-title-row"><h2>Capability snapshot</h2><p>Erste Jira Sandbox / checked 2m ago</p></div><button class="icon-button ticketed" type="button" data-ticket="P02-T05" data-toast="Capability discovery queued" aria-label="Refresh capabilities"><i data-lucide="refresh-cw"></i></button></div>
-                            <div class="panel-body capability-list">
-                                <div class="capability-item"><span>Project create and update</span><span class="status success">Supported</span></div>
-                                <div class="capability-item"><span>Workflow read</span><span class="status success">Supported</span></div>
-                                <div class="capability-item"><span>Workflow validator write</span><span class="status danger">Unavailable</span></div>
-                                <div class="capability-item"><span>Screen scheme association</span><span class="status warning">Permission</span></div>
-                                <div class="capability-item"><span>Issue batch transition</span><span class="status success">Supported</span></div>
-                            </div>
-                        </section>
-                    </div>
-                </section>
-
                 <section class="view ticketed" id="settings" data-panel="settings" data-ticket="P02-T10">
                     <div class="page-header">
-                        <div><div class="eyebrow">Administration</div><h1>Settings</h1><p class="page-subtitle">Application access governance, secure Jira credentials, offline repository policy, retention, and storage controls.</p></div>
+                        <div><div class="eyebrow">Administration</div><h1>Settings</h1><p class="page-subtitle">Jira connections, application access governance, secure credentials, offline repository policy, retention, and storage controls.</p></div>
                     </div>
                     <div class="settings-layout">
                         <aside class="panel settings-nav ticketed" data-ticket="P02-T10" role="tablist" aria-label="Settings sections" aria-orientation="vertical">
+                            <button class="settings-nav-button active ticketed" type="button" role="tab" aria-selected="true" data-ticket="P02-T01" data-settings-tab="connections"><i data-lucide="plug-zap"></i><span><strong>Jira connections</strong><span>Sites, identities, capabilities</span></span></button>
                             <button class="settings-nav-button ticketed" type="button" role="tab" aria-selected="false" data-ticket="P01-T09" data-settings-tab="users-access"><i data-lucide="users-round"></i><span><strong>Users &amp; access</strong><span>OIDC, roles, scopes, reviews</span></span></button>
-                            <button class="settings-nav-button active ticketed" type="button" role="tab" aria-selected="true" data-ticket="P02-T10" data-settings-tab="credentials"><i data-lucide="key-round"></i><span><strong>Jira credentials</strong><span>Secrets, tests, and rotation</span></span></button>
+                            <button class="settings-nav-button ticketed" type="button" role="tab" aria-selected="false" data-ticket="P02-T10" data-settings-tab="credentials"><i data-lucide="key-round"></i><span><strong>Jira credentials</strong><span>Secrets, tests, and rotation</span></span></button>
                             <button class="settings-nav-button ticketed" type="button" role="tab" aria-selected="false" data-ticket="P06-T13" data-settings-tab="offline-policy"><i data-lucide="database"></i><span><strong>Offline repository</strong><span>Sync, storage, and retention</span></span></button>
                         </aside>
 
-                        <div class="settings-panel active stack" data-settings-content="credentials">
+                        <div class="settings-panel active stack" data-settings-content="connections">
+                            <section class="panel ticketed" data-ticket="P02-T01">
+                                <div class="panel-header"><div class="panel-title-row"><h2>Registered Jira sites</h2><p>Site identity and health; secret values remain in the external provider</p></div><button class="button primary ticketed" type="button" data-ticket="P02-T01" data-toast="New connection form opened"><i data-lucide="plus"></i>Add connection</button></div>
+                                <div class="table-wrap">
+                                    <table>
+                                        <thead><tr><th>Site</th><th>Environment</th><th>Identity</th><th>Status</th><th></th></tr></thead>
+                                        <tbody>
+                                            <tr><td><span class="table-primary">Erste Jira Sandbox</span><span class="table-secondary">https://example-sandbox.atlassian.net</span></td><td>Test</td><td>jira-automation</td><td><span class="status success" id="connection-state">Healthy</span></td><td><div class="button-row"><button class="text-button ticketed" type="button" data-ticket="P02-T01" id="test-connection">Test</button><button class="text-button ticketed" type="button" data-ticket="P02-T10" data-open-settings="credentials">Credentials</button></div></td></tr>
+                                            <tr><td><span class="table-primary">Delivery Development</span><span class="table-secondary">https://example-dev.atlassian.net</span></td><td>Development</td><td>jira-deployer-dev</td><td><span class="status success">Healthy</span></td><td><button class="text-button ticketed" type="button" data-ticket="P02-T01" data-toast="Connection details opened">Open</button></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                            <section class="panel ticketed" data-ticket="P02-T05">
+                                <div class="panel-header"><div class="panel-title-row"><h2>Capability snapshot</h2><p>Erste Jira Sandbox / checked 2m ago</p></div><button class="icon-button ticketed" type="button" data-ticket="P02-T05" data-toast="Capability discovery queued" aria-label="Refresh capabilities"><i data-lucide="refresh-cw"></i></button></div>
+                                <div class="panel-body capability-list">
+                                    <div class="capability-item"><span>Project create and update</span><span class="status success">Supported</span></div>
+                                    <div class="capability-item"><span>Workflow read</span><span class="status success">Supported</span></div>
+                                    <div class="capability-item"><span>Workflow validator write</span><span class="status danger">Unavailable</span></div>
+                                    <div class="capability-item"><span>Screen scheme association</span><span class="status warning">Permission</span></div>
+                                    <div class="capability-item"><span>Issue batch transition</span><span class="status success">Supported</span></div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="settings-panel stack" data-settings-content="credentials">
                             <section class="panel ticketed" data-ticket="P02-T10">
                                 <div class="panel-header"><div class="panel-title-row"><h2>Active Jira credential</h2><p id="active-credential-caption">Erste Jira Sandbox / API token authentication</p></div><span class="status success" id="active-credential-status">Active and tested</span></div>
                                 <div class="credential-card">
@@ -4544,33 +4550,39 @@ logicalIdStrategy: type + normalized stable name</div></div>
                                 </div>
 
                                 <div class="diagram-view" data-diagram="radial">
-                                    <div class="diagram-heading"><div><h2>Radial star</h2><p>Selected issue at the center with immediate incoming and outgoing relationships.</p></div><span class="status info">1-hop neighborhood</span></div>
+                                    <div class="diagram-heading"><div><h2>Radial star</h2><p>Selected issue at the center with immediate incoming and outgoing relationships.</p></div><span class="status info">4 of 9 / 1-hop</span></div>
                                     <div class="diagram-canvas ticketed" data-ticket="P06-T10">
                                         <svg class="diagram-svg" viewBox="0 0 760 470" role="presentation" aria-hidden="true" focusable="false">
-                                            <line class="diagram-edge blocks" x1="380" y1="235" x2="165" y2="105"></line><line class="diagram-edge parent" x1="380" y1="235" x2="595" y2="105"></line><line class="diagram-edge" x1="380" y1="235" x2="650" y2="250"></line><line class="diagram-edge blocks" x1="380" y1="235" x2="565" y2="390"></line><line class="diagram-edge parent" x1="380" y1="235" x2="190" y2="385"></line><line class="diagram-edge" x1="380" y1="235" x2="105" y2="250"></line>
+                                            <line class="diagram-edge parent" data-relationship-id="r2" x1="380" y1="235" x2="165" y2="105"></line><line class="diagram-edge blocks" data-relationship-id="r1" x1="380" y1="235" x2="595" y2="105"></line><line class="diagram-edge" data-relationship-id="r3" x1="650" y1="250" x2="380" y2="235"></line><line class="diagram-edge parent" data-relationship-id="r4" x1="380" y1="235" x2="190" y2="385"></line>
                                             <g class="diagram-node center selected" data-select-issue="REQ-101"><circle cx="380" cy="235" r="58"></circle><text x="380" y="230" text-anchor="middle">REQ-101</text><text class="node-subtitle" x="380" y="247" text-anchor="middle">Platform access</text></g>
-                                            <g class="diagram-node" data-select-issue="TASK-22"><rect x="105" y="74" width="120" height="58" rx="6"></rect><text x="165" y="99" text-anchor="middle">TASK-22</text><text class="node-subtitle" x="165" y="116" text-anchor="middle">blocks</text></g>
-                                            <g class="diagram-node blocked" data-select-issue="REQ-118"><rect x="535" y="74" width="120" height="58" rx="6"></rect><text x="595" y="99" text-anchor="middle">REQ-118</text><text class="node-subtitle" x="595" y="116" text-anchor="middle">parent</text></g>
-                                            <g class="diagram-node" data-select-issue="TEST-31"><rect x="600" y="221" width="120" height="58" rx="6"></rect><text x="660" y="246" text-anchor="middle">TEST-31</text><text class="node-subtitle" x="660" y="263" text-anchor="middle">is tested by</text></g>
-                                            <g class="diagram-node" data-select-issue="TASK-28"><rect x="505" y="361" width="120" height="58" rx="6"></rect><text x="565" y="386" text-anchor="middle">TASK-28</text><text class="node-subtitle" x="565" y="403" text-anchor="middle">blocks</text></g>
+                                            <g class="diagram-node" data-select-issue="TASK-22"><rect x="105" y="74" width="120" height="58" rx="6"></rect><text x="165" y="99" text-anchor="middle">TASK-22</text><text class="node-subtitle" x="165" y="116" text-anchor="middle">child</text></g>
+                                            <g class="diagram-node blocked" data-select-issue="REQ-118"><rect x="535" y="74" width="120" height="58" rx="6"></rect><text x="595" y="99" text-anchor="middle">REQ-118</text><text class="node-subtitle" x="595" y="116" text-anchor="middle">blocked</text></g>
+                                            <g class="diagram-node" data-select-issue="TEST-31"><rect x="600" y="221" width="120" height="58" rx="6"></rect><text x="660" y="246" text-anchor="middle">TEST-31</text><text class="node-subtitle" x="660" y="263" text-anchor="middle">tests center</text></g>
                                             <g class="diagram-node" data-select-issue="DEF-9"><rect x="130" y="356" width="120" height="58" rx="6"></rect><text x="190" y="381" text-anchor="middle">DEF-9</text><text class="node-subtitle" x="190" y="398" text-anchor="middle">child</text></g>
-                                            <g class="diagram-node" data-select-issue="REQ-132"><rect x="45" y="221" width="120" height="58" rx="6"></rect><text x="105" y="246" text-anchor="middle">REQ-132</text><text class="node-subtitle" x="105" y="263" text-anchor="middle">relates</text></g>
                                         </svg>
                                     </div>
                                 </div>
 
                                 <div class="diagram-view" data-diagram="network">
-                                    <div class="diagram-heading"><div><h2>Directional network</h2><p>End-to-end dependency flow grouped from requirements through delivery and testing.</p></div><span class="status danger">3 blocked paths</span></div>
+                                    <div class="diagram-heading"><div><h2>Directional network</h2><p>All filtered relationships, grouped from requirements through delivery and testing.</p></div><span class="status danger">9 relationships / 4 blocks</span></div>
                                     <div class="diagram-canvas ticketed" data-ticket="P06-T10">
                                         <svg class="diagram-svg" viewBox="0 0 800 470" role="presentation" aria-hidden="true" focusable="false">
                                             <defs><marker id="network-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#7890a2"></polygon></marker><marker id="network-arrow-red" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#a33b35"></polygon></marker></defs>
-                                            <path class="diagram-edge blocks" marker-end="url(#network-arrow-red)" d="M185 108 C250 108 250 108 315 108"></path><path class="diagram-edge" marker-end="url(#network-arrow)" d="M435 108 C510 108 510 108 580 108"></path><path class="diagram-edge blocks" marker-end="url(#network-arrow-red)" d="M185 318 C255 318 255 250 315 250"></path><path class="diagram-edge parent" marker-end="url(#network-arrow)" d="M435 250 C515 250 515 318 580 318"></path><path class="diagram-edge" marker-end="url(#network-arrow)" d="M640 137 C640 185 640 240 640 289"></path><path class="diagram-edge blocks" marker-end="url(#network-arrow-red)" d="M375 137 C375 175 375 208 375 221"></path>
+                                            <path class="diagram-edge blocks" data-relationship-id="r1" marker-end="url(#network-arrow-red)" d="M185 108 C250 108 250 108 315 108"></path>
+                                            <path class="diagram-edge parent" data-relationship-id="r2" marker-end="url(#network-arrow)" d="M125 79 C230 20 535 20 640 79"></path>
+                                            <path class="diagram-edge" data-relationship-id="r3" marker-end="url(#network-arrow)" d="M580 318 C475 430 125 420 125 137"></path>
+                                            <path class="diagram-edge parent" data-relationship-id="r4" marker-end="url(#network-arrow)" d="M105 137 C90 205 90 300 105 359"></path>
+                                            <path class="diagram-edge blocks" data-relationship-id="r5" marker-end="url(#network-arrow-red)" d="M580 118 C510 160 500 150 435 118"></path>
+                                            <path class="diagram-edge blocks" data-relationship-id="r6" marker-end="url(#network-arrow-red)" d="M375 137 C375 175 375 208 375 221"></path>
+                                            <path class="diagram-edge" data-relationship-id="r7" marker-end="url(#network-arrow)" d="M650 289 C690 240 690 185 650 137"></path>
+                                            <path class="diagram-edge blocks" data-relationship-id="r8" marker-end="url(#network-arrow-red)" d="M435 250 C515 250 515 318 580 318"></path>
+                                            <path class="diagram-edge" data-relationship-id="r9" marker-end="url(#network-arrow)" d="M165 388 C300 388 455 350 580 318"></path>
                                             <g class="diagram-node selected" data-select-issue="REQ-101"><rect x="65" y="79" width="120" height="58" rx="6"></rect><text x="125" y="104" text-anchor="middle">REQ-101</text><text class="node-subtitle" x="125" y="121" text-anchor="middle">Requirement</text></g>
                                             <g class="diagram-node blocked" data-select-issue="REQ-118"><rect x="315" y="79" width="120" height="58" rx="6"></rect><text x="375" y="104" text-anchor="middle">REQ-118</text><text class="node-subtitle" x="375" y="121" text-anchor="middle">Blocked</text></g>
                                             <g class="diagram-node" data-select-issue="TASK-22"><rect x="580" y="79" width="120" height="58" rx="6"></rect><text x="640" y="104" text-anchor="middle">TASK-22</text><text class="node-subtitle" x="640" y="121" text-anchor="middle">Done</text></g>
-                                            <g class="diagram-node" data-select-issue="REQ-132"><rect x="65" y="289" width="120" height="58" rx="6"></rect><text x="125" y="314" text-anchor="middle">REQ-132</text><text class="node-subtitle" x="125" y="331" text-anchor="middle">Requirement</text></g>
                                             <g class="diagram-node" data-select-issue="TASK-28"><rect x="315" y="221" width="120" height="58" rx="6"></rect><text x="375" y="246" text-anchor="middle">TASK-28</text><text class="node-subtitle" x="375" y="263" text-anchor="middle">To Do</text></g>
                                             <g class="diagram-node" data-select-issue="TEST-31"><rect x="580" y="289" width="120" height="58" rx="6"></rect><text x="640" y="314" text-anchor="middle">TEST-31</text><text class="node-subtitle" x="640" y="331" text-anchor="middle">Test</text></g>
+                                            <g class="diagram-node" data-select-issue="DEF-9"><rect x="45" y="359" width="120" height="58" rx="6"></rect><text x="105" y="384" text-anchor="middle">DEF-9</text><text class="node-subtitle" x="105" y="401" text-anchor="middle">Defect</text></g>
                                         </svg>
                                     </div>
                                 </div>
@@ -4674,17 +4686,17 @@ logicalIdStrategy: type + normalized stable name</div></div>
                     </div>
 
                     <section class="panel ticketed" data-ticket="P06-T12" style="margin-top:18px">
-                        <div class="panel-header"><div class="panel-title-row"><h2>Browse and search offline data</h2><p>Searches the encrypted repository and never contacts Jira in Offline mode</p></div><span class="offline-source-label" id="offline-search-source"><i data-lucide="database"></i>Source: Offline PostgreSQL</span></div>
+                        <div class="panel-header"><div class="panel-title-row"><h2>Browse and search Jira data</h2><p>The selected access mode determines whether this request uses live Jira or an eligible snapshot.</p></div><span class="offline-source-label" id="offline-search-source"><i data-lucide="database"></i>Actual source: Snapshot SNAP-2026-08-21-1000</span></div>
                         <div class="panel-body">
-                            <div class="repository-search"><input class="input" id="offline-search-input" placeholder="Search issues, comments, users, workflows, fields..." value="access"><select class="select" id="offline-search-type" aria-label="Offline entity type"><option value="all">All entity types</option><option value="issue">Issues</option><option value="comment">Comments</option><option value="config">Configuration</option><option value="user">Users</option><option value="attachment">Attachments</option></select><button class="button blue ticketed" type="button" data-ticket="P06-T12" id="offline-search-button"><i data-lucide="search"></i>Search repository</button></div>
-                            <div class="filter-row" style="margin-bottom:12px"><select class="select" style="width:170px" aria-label="Offline project filter"><option>All projects</option><option>DELIVERY</option><option>ANALYTICS</option><option>RISK</option><option>DICOPS</option></select><select class="select" style="width:170px" aria-label="Offline date filter"><option>Any snapshot date</option><option>Last 7 days</option><option>Last 30 days</option></select><span class="empty-inline" id="offline-search-count">5 local results</span></div>
+                            <div class="repository-search"><input class="input" id="offline-search-input" placeholder="Search issues, comments, users, workflows, fields..." value="access" aria-label="Search Jira data"><select class="select" id="offline-search-type" aria-label="Jira entity type"><option value="all">All entity types</option><option value="issue">Issues</option><option value="comment">Comments</option><option value="config">Configuration</option><option value="user">Users</option><option value="attachment">Attachments</option></select><button class="button blue ticketed" type="button" data-ticket="P06-T12" id="offline-search-button"><i data-lucide="search"></i>Search selected source</button></div>
+                            <div class="filter-row" style="margin-bottom:12px"><select class="select" style="width:170px" aria-label="Project filter"><option>All projects</option><option>DELIVERY</option><option>ANALYTICS</option><option>RISK</option><option>DICOPS</option></select><select class="select" style="width:170px" aria-label="Date filter"><option>Any snapshot date</option><option>Last 7 days</option><option>Last 30 days</option></select><span class="empty-inline" id="offline-search-count">5 snapshot results</span></div>
                             <div class="search-result-list" id="offline-search-results">
                                 <article class="offline-result ticketed" data-ticket="P06-T12" data-offline-entity="issue" data-offline-search="delivery req-101 platform access model authentication"><span class="offline-result-icon"><i data-lucide="ticket"></i></span><span class="offline-result-copy"><strong>DELIVERY / REQ-101 / Platform access model</strong><span>Requirement / In Progress / Snapshot 10:00. Defines <mark>access</mark> rules and identity mapping.</span></span><span class="status info">Issue</span></article>
                                 <article class="offline-result ticketed" data-ticket="P06-T12" data-offline-entity="comment" data-offline-search="delivery req-101 comment access approval security"><span class="offline-result-icon"><i data-lucide="message-square-text"></i></span><span class="offline-result-copy"><strong>Comment on REQ-101</strong><span>“The <mark>access</mark> approval matrix was accepted by Security...” / 20 Aug</span></span><span class="status neutral">Comment</span></article>
                                 <article class="offline-result ticketed" data-ticket="P06-T12" data-offline-entity="config" data-offline-search="permission scheme access delivery configuration"><span class="offline-result-icon"><i data-lucide="settings-2"></i></span><span class="offline-result-copy"><strong>Delivery Access Permission Scheme</strong><span>Configuration / 14 permissions / Used by DELIVERY / Snapshot 10:00</span></span><span class="status success">Config</span></article>
                                 <article class="offline-result ticketed" data-ticket="P06-T12" data-offline-entity="user" data-offline-search="alex morgan access administrator user"><span class="offline-result-icon"><i data-lucide="user-round"></i></span><span class="offline-result-copy"><strong>Alex Morgan</strong><span>User reference / Jira administrator / Visible in <mark>access</mark> audit events</span></span><span class="status neutral">User</span></article>
                                 <article class="offline-result ticketed" data-ticket="P06-T12" data-offline-entity="attachment" data-offline-search="access model pdf attachment req-101"><span class="offline-result-icon"><i data-lucide="paperclip"></i></span><span class="offline-result-copy"><strong>access-model-v3.pdf</strong><span>Attachment / REQ-101 / 1.8 MB / Encrypted content available offline</span></span><span class="status success">Attachment</span></article>
-                                <div class="empty-validation" id="offline-no-results" hidden><i data-lucide="search-x"></i><strong>No local results</strong><span>Try another term or entity filter. No Jira request was made.</span></div>
+                                <div class="empty-validation" id="offline-no-results" hidden><i data-lucide="search-x"></i><strong>No results</strong><span>Try another term, project, date, or entity filter. The source label records whether Jira was contacted.</span></div>
                             </div>
                         </div>
                     </section>
@@ -4909,7 +4921,6 @@ logicalIdStrategy: type + normalized stable name</div></div>
             blueprints: "Blueprints",
             "blueprint-capture": "Capture blueprint from Jira",
             "blueprint-editor": "Blueprint editor",
-            connections: "Connections",
             settings: "Settings",
             jobs: "Jobs",
             offline: "Offline repository",
@@ -4934,6 +4945,8 @@ logicalIdStrategy: type + normalized stable name</div></div>
         let selectedProjectKey = "DELIVERY";
         let currentView = "overview";
         let currentViewProjectScoped = false;
+        let currentSettingsTab = "connections";
+        let planStateProjectKey = null;
 
         const apiCalls = [
             { sequence: "01", method: "POST", methodClass: "post", endpoint: "/rest/api/3/project", action: "Create Jira project", step: "STEP-01", stepName: "Create project DELIVERY", status: "201 Created", statusClass: "success", duration: "842 ms", attempt: "1 of 3", started: "10:14:05.118", correlation: "req-8db19c", responseSize: "286 B", request: "{\n  \"key\": \"DELIVERY\",\n  \"name\": \"Delivery Platform\",\n  \"projectTypeKey\": \"software\",\n  \"leadAccountId\": \"[REDACTED]\"\n}", response: "{\n  \"id\": \"10417\",\n  \"key\": \"DELIVERY\",\n  \"self\": \"https://example-sandbox.atlassian.net/rest/api/3/project/10417\"\n}", note: "Authorization, cookies, account identifiers, and configured sensitive fields are redacted." },
@@ -5082,6 +5095,7 @@ spec:
         let confirmationReturnFocus = null;
         let confirmationNeedsReason = false;
         let assignmentPreviewSnapshot = null;
+        let assignmentPreviewImpact = null;
         let batchPreviewSnapshot = null;
         let ticketInspectorEnabled = false;
         let stateFixtureMode = "default";
@@ -5208,7 +5222,7 @@ spec:
             const blockedRow = document.getElementById("plan-blocked-row");
             blockedRow.hidden = !planState.blocked;
             setText("plan-blocked-count", planState.blocked ? "1" : "0");
-            execute.disabled = !planState.approved;
+            execute.disabled = mutationBlockedByFixture() || !planState.approved;
             if (planState.stale) {
                 badge.textContent = "Stale";
                 badge.className = "status warning";
@@ -5233,15 +5247,17 @@ spec:
             } else {
                 badge.textContent = "Ready";
                 badge.className = "status info";
-                approve.disabled = false;
+                approve.disabled = mutationBlockedByFixture();
                 resolve.disabled = true;
                 setText("approval-title", "Plan is ready for approval");
                 setText("approval-note", "Review target, checksum, shared impact, and unsupported exclusions before confirming.");
             }
+            if (mutationBlockedByFixture()) resolve.disabled = true;
         }
 
         function resetPlanForProject() {
             const project = projectContexts[selectedProjectKey];
+            planStateProjectKey = selectedProjectKey;
             planState = { blocked: project.planState === "Blocked" && !resolvedPlanBlockers.has(project.key), stale: false, approved: false };
             updatePlanState();
         }
@@ -5552,7 +5568,8 @@ spec:
             setText("capture-selection-status", ready ? "All shared-resource decisions are explicit. Review before creating the draft." : `Choose decisions for ${unresolved} shared resource group${unresolved === 1 ? "" : "s"}.`);
         }
 
-        function openSettingsTab(tabName) {
+        function openSettingsTab(tabName, updateRoute = true) {
+            currentSettingsTab = tabName;
             document.querySelectorAll("[data-settings-tab]").forEach((tab) => {
                 const active = tab.dataset.settingsTab === tabName;
                 tab.classList.toggle("active", active);
@@ -5560,6 +5577,7 @@ spec:
             });
             document.querySelectorAll("[data-settings-content]").forEach((content) => content.classList.toggle("active", content.dataset.settingsContent === tabName));
             synchronizeTabSet(tabSetConfigurations[2]);
+            if (updateRoute && currentView === "settings") window.history.pushState(null, "", `#settings/${encodeURIComponent(tabName)}`);
         }
 
         function showApplicationUser(userKey) {
@@ -5613,8 +5631,29 @@ spec:
 
         function invalidateAssignmentPreview() {
             assignmentPreviewSnapshot = null;
+            assignmentPreviewImpact = null;
             document.getElementById("save-assignment").disabled = true;
             document.getElementById("assignment-preview").classList.remove("visible");
+        }
+
+        function calculateAssignmentImpact(userKey, assignment) {
+            const user = applicationUsers[userKey];
+            const permissions = { Viewer: "read projects, plans, jobs, validation, and audit", Operator: "create plans and run permitted jobs; cannot approve or administer", Approver: "review and approve plans; cannot administer credentials or users" };
+            const existing = {
+                alex: ["Administrator / Global"],
+                marta: ["Approver / DELIVERY, RISK", "Operator / DELIVERY"],
+                stefan: ["Operator / ANALYTICS"],
+                laura: ["Viewer / All projects"],
+                jan: ["Operator / DELIVERY"]
+            }[userKey] || [];
+            const before = existing.join(" + ") || "No active access";
+            const exactAssignment = `${assignment.role} / ${assignment.scope}`;
+            const providerBlocked = user.status === "Suspended" || user.status === "Provider disabled";
+            const administratorSupersedes = existing.includes("Administrator / Global") && assignment.role !== "Administrator";
+            const duplicate = existing.some((entry) => entry === exactAssignment || (entry.includes(`${assignment.role} /`) && entry.includes(assignment.scope)));
+            if (providerBlocked) return { before: `${before}; ${user.status.toLowerCase()}`, after: before, delta: "No active permission change", conflicts: `${user.status} blocks this exception`, sessions: `${user.sessions}; no new authorization until identity access is restored`, canSave: false };
+            if (administratorSupersedes || duplicate) return { before, after: before, delta: "No permission change", conflicts: administratorSupersedes ? "Redundant: global Administrator already includes the proposed scoped capability" : "Redundant: an equivalent active assignment already exists", sessions: `${user.sessions}; no session change`, canSave: false };
+            return { before, after: `${before} + ${exactAssignment}`, delta: `Adds ${permissions[assignment.role]} within ${assignment.scope}`, conflicts: "None detected", sessions: `${user.sessions}; effective authorization is recalculated on the next request`, canSave: true };
         }
 
         function resetCredentialCandidate() {
@@ -5734,7 +5773,7 @@ spec:
             } else {
                 icon.setAttribute("data-lucide", "wifi");
                 title.textContent = "Online mode active";
-                description.textContent = "Live Jira requests are allowed. Repository search remains available as an explicit local source.";
+                description.textContent = "Search requests use live Jira and are labeled live only after a Jira response. Choose Offline for explicit snapshot-only access.";
                 scopeLabel.innerHTML = "<strong>Portfolio</strong> / Live Jira";
                 scopeTag.textContent = "LIVE";
                 sync.disabled = false;
@@ -5755,9 +5794,9 @@ spec:
                 result.hidden = !visible;
                 if (visible) visibleCount += 1;
             });
-            document.getElementById("offline-no-results").hidden = visibleCount !== 0;
-            document.getElementById("offline-search-count").textContent = `${visibleCount} local result${visibleCount === 1 ? "" : "s"}`;
             const actual = updateOfflineResultSource();
+            document.getElementById("offline-no-results").hidden = visibleCount !== 0;
+            document.getElementById("offline-search-count").textContent = `${visibleCount} ${actual.key === "live" ? "live Jira" : "snapshot"} result${visibleCount === 1 ? "" : "s"}`;
             showToast(`${visibleCount} results`, `${actual.reason}.`);
         }
 
@@ -5768,6 +5807,8 @@ spec:
             const isOpen = sidebar.classList.contains("open");
             sidebar.inert = isMobile && !isOpen;
             sidebar.setAttribute("aria-hidden", String(isMobile && !isOpen));
+            document.getElementById("main-content").inert = isMobile && isOpen;
+            document.querySelectorAll(".topbar > :not(#mobile-menu)").forEach((element) => { element.inert = isMobile && isOpen; });
             mobileMenu.setAttribute("aria-expanded", String(isMobile && isOpen));
             mobileMenu.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
         }
@@ -5780,7 +5821,7 @@ spec:
         }
 
         function openView(viewName, projectScoped = viewName === "project" || viewName === "deploy" || viewName === "dependencies", options = {}) {
-            const { updateRoute = true, focusHeading = true, projectKey = null, bypassDirtyGuard = false } = options;
+            const { updateRoute = true, focusHeading = true, projectKey = null, settingsTab = null, bypassDirtyGuard = false } = options;
             const targetPanel = document.querySelector(`[data-panel="${viewName}"]`);
             if (!targetPanel) return;
             if (editorDirty && currentView === "blueprint-editor" && viewName !== "blueprint-editor" && !bypassDirtyGuard) {
@@ -5792,9 +5833,11 @@ spec:
                 return;
             }
             if (projectKey && projectContexts[projectKey]) selectedProjectKey = projectKey;
+            if (viewName === "deploy" && planStateProjectKey !== selectedProjectKey) resetPlanForProject();
             currentView = viewName;
             currentViewProjectScoped = projectScoped;
             if (projectScoped) renderProjectContext();
+            if (viewName === "settings") openSettingsTab(settingsTab || currentSettingsTab, false);
             document.querySelectorAll("[data-panel]").forEach((panel) => {
                 panel.classList.toggle("active", panel.dataset.panel === viewName);
             });
@@ -5822,7 +5865,7 @@ spec:
             renderTicketInspector();
             applyStateFixture(stateFixtureMode);
             if (updateRoute) {
-                const route = projectScoped ? `#${viewName}/${encodeURIComponent(selectedProjectKey)}` : `#${viewName}`;
+                const route = viewName === "settings" ? `#settings/${encodeURIComponent(currentSettingsTab)}` : projectScoped ? `#${viewName}/${encodeURIComponent(selectedProjectKey)}` : `#${viewName}`;
                 if (window.location.hash !== route) window.history.pushState(null, "", route);
             }
             closeSidebar(false);
@@ -5837,10 +5880,17 @@ spec:
         }
 
         function openRouteFromLocation(initial = false) {
-            const [requestedView, requestedProject] = decodeURIComponent(window.location.hash.slice(1)).split("/");
+            let [requestedView, routeContext] = decodeURIComponent(window.location.hash.slice(1)).split("/");
+            if (requestedView === "connections") {
+                requestedView = "settings";
+                routeContext = "connections";
+                window.history.replaceState(null, "", "#settings/connections");
+            }
             const viewName = document.querySelector(`[data-panel="${requestedView}"]`) ? requestedView : "overview";
+            const requestedSettingsTab = viewName === "settings" && document.querySelector(`[data-settings-tab="${routeContext}"]`) ? routeContext : "connections";
+            const requestedProject = viewName === "settings" ? null : routeContext;
             const projectScoped = Boolean(requestedProject) || viewName === "project" || viewName === "deploy" || viewName === "dependencies";
-            openView(viewName, projectScoped, { updateRoute: false, focusHeading: !initial, projectKey: requestedProject });
+            openView(viewName, projectScoped, { updateRoute: false, focusHeading: !initial, projectKey: requestedProject, settingsTab: requestedSettingsTab });
             if (!window.location.hash) window.history.replaceState(null, "", "#overview");
             else if (projectScoped && !requestedProject) window.history.replaceState(null, "", `#${viewName}/${encodeURIComponent(selectedProjectKey)}`);
         }
@@ -5912,18 +5962,25 @@ spec:
             loading: { title: "Loading data", detail: "The request is still in progress. Existing evidence remains unchanged until a complete response arrives.", action: "Cancel request", icon: "loader-circle", tone: "" },
             empty: { title: "No records match this scope", detail: "The selected target and filters returned no records. No configuration or Jira data was changed.", action: "Reset filters", icon: "inbox", tone: "" },
             partial: { title: "Partial Jira permissions", detail: "Three records were omitted because the current identity lacks Browse Projects permission. Counts and evidence are marked incomplete.", action: "Review omissions", icon: "shield-alert", tone: "" },
-            error: { title: "Jira request failed", detail: "The request failed after three bounded attempts. Correlation req-8db19c is available; no cached result was substituted.", action: "Retry request", icon: "circle-x", tone: "danger" },
+            error: { title: "Jira request failed", detail: "The request failed after three bounded attempts. Last complete evidence remains visible and unchanged; correlation req-8db19c is available.", action: "Retry request", icon: "circle-x", tone: "danger" },
             stale: { title: "Evidence is stale and incomplete", detail: "Snapshot SNAP-2026-08-20-0800 is 26 hours old and omits one restricted project. Mutations remain disabled.", action: "Open manifest", icon: "history", tone: "" },
             purged: { title: "Offline repository was purged", detail: "Structured records, indexes, attachments, and key references were removed under PURGE-184. Live Jira has not been queried.", action: "Review purge event", icon: "trash-2", tone: "danger" },
             limit: { title: "Result limit reached", detail: "10,000 of 12,842 records are shown. Narrow the project, type, status, or relationship filters for complete evidence.", action: "Narrow filters", icon: "list-filter", tone: "" },
             malformed: { title: "Jira response could not be parsed", detail: "An unexpected response shape was quarantined. A bounded, sanitized payload is available for diagnosis.", action: "View response", icon: "file-warning", tone: "danger" }
         };
 
+        const mutationControlIds = ["resolve-plan-blocker", "approve-plan", "execute-plan", "cancel-job", "run-validation-suite", "create-test-data", "clean-test-data", "execute-batch", "enable-schedule", "purge-repository", "activate-candidate", "save-assignment", "revoke-user-sessions", "suspend-user", "publish-blueprint", "create-captured-draft", "offline-sync-now"];
+        const mutationBlockedByFixture = () => ["loading", "empty", "partial", "error", "stale", "purged", "malformed"].includes(stateFixtureMode);
+
         function applyStateFixture(mode) {
             document.querySelectorAll(".state-fixture-banner").forEach((banner) => banner.remove());
-            document.querySelectorAll("[data-panel].fixture-active").forEach((panel) => {
-                panel.classList.remove("fixture-active");
+            document.querySelectorAll("[data-panel].fixture-active, [data-panel].fixture-replaces-data").forEach((panel) => {
+                panel.classList.remove("fixture-active", "fixture-replaces-data");
                 panel.removeAttribute("aria-busy");
+            });
+            document.querySelectorAll("[data-fixture-disabled]").forEach((control) => {
+                control.disabled = control.dataset.fixtureDisabled === "true";
+                delete control.dataset.fixtureDisabled;
             });
             if (mode === "default") return;
             const fixture = stateFixtures[mode];
@@ -5931,6 +5988,13 @@ spec:
             if (!fixture || !panel) return;
             panel.classList.add("fixture-active");
             if (mode === "loading") panel.setAttribute("aria-busy", "true");
+            if (["empty", "purged"].includes(mode)) panel.classList.add("fixture-replaces-data");
+            if (mutationBlockedByFixture()) {
+                panel.querySelectorAll("[data-mutation-action]").forEach((control) => {
+                    control.dataset.fixtureDisabled = String(control.disabled);
+                    control.disabled = true;
+                });
+            }
             const banner = document.createElement("section");
             banner.className = `state-fixture-banner ${fixture.tone}`.trim();
             banner.dataset.stateFixture = mode;
@@ -5947,7 +6011,7 @@ spec:
         document.querySelectorAll(".nav-item[data-view]").forEach((item) => {
             item.addEventListener("click", (event) => {
                 event.preventDefault();
-                openView(item.dataset.view, item.dataset.view === "dependencies");
+                openView(item.dataset.view, item.dataset.view === "dependencies", { settingsTab: item.dataset.view === "settings" ? "connections" : null });
             });
         });
 
@@ -6019,8 +6083,7 @@ spec:
 
         document.querySelectorAll("[data-open-settings]").forEach((item) => {
             item.addEventListener("click", () => {
-                openSettingsTab(item.dataset.openSettings);
-                openView("settings", false);
+                openView("settings", false, { settingsTab: item.dataset.openSettings });
             });
         });
 
@@ -6063,24 +6126,25 @@ spec:
                 document.getElementById("assignment-reason").focus();
                 return;
             }
-            const permissions = { Viewer: "read projects, plans, jobs, validation, and audit", Operator: "create plans and run permitted jobs; cannot approve or administer", Approver: "review and approve plans; cannot administer credentials or users" };
             const user = applicationUsers[selectedApplicationUser];
+            const impact = calculateAssignmentImpact(selectedApplicationUser, assignment);
             assignmentPreviewSnapshot = assignment;
-            document.getElementById("assignment-preview-text").textContent = `${user.name} / ${assignment.role} on ${assignment.scope} / starts now / expires ${assignment.expiry || "never"} / owner: Alex Morgan / current source: ${user.groups} / permission delta: adds ${permissions[assignment.role]} / conflicts: none detected / affected sessions: ${user.sessions} / reason: ${assignment.reason}.`;
+            assignmentPreviewImpact = impact;
+            document.getElementById("assignment-preview-text").textContent = `${user.name} / proposed: ${assignment.role} on ${assignment.scope} / before: ${impact.before} / after: ${impact.after} / permission delta: ${impact.delta} / owner: Alex Morgan / current source: ${user.groups} / conflicts: ${impact.conflicts} / affected sessions: ${impact.sessions} / starts now / expires ${assignment.expiry || "never"} / reason: ${assignment.reason}.`;
             document.getElementById("assignment-preview").classList.add("visible");
-            document.getElementById("save-assignment").disabled = false;
+            document.getElementById("save-assignment").disabled = !impact.canSave;
         });
 
         document.getElementById("save-assignment").addEventListener("click", () => {
             const assignment = currentAssignmentInput();
-            if (!assignmentPreviewSnapshot || JSON.stringify(assignment) !== JSON.stringify(assignmentPreviewSnapshot)) {
+            if (!assignmentPreviewSnapshot || !assignmentPreviewImpact || JSON.stringify(assignment) !== JSON.stringify(assignmentPreviewSnapshot)) {
                 invalidateAssignmentPreview();
                 showToast("Preview required", "Role, scope, expiry, or reason changed after the effective-access preview.");
                 return;
             }
             const user = applicationUsers[selectedApplicationUser];
-            const permissions = { Viewer: "read projects, plans, jobs, validation, and audit", Operator: "create plans and run permitted jobs; cannot approve or administer", Approver: "review and approve plans; cannot administer credentials or users" };
-            requestConfirmation({ title: "Add direct access exception", description: "This assignment supplements group-derived access and will be included in access review.", items: [["User", user.name], ["Role and scope", `${assignment.role} / ${assignment.scope}`], ["Current source", user.groups], ["Access owner", "Alex Morgan"], ["Starts / expires", `Now / ${assignment.expiry || "No expiry"}`], ["Permission delta", `Adds ${permissions[assignment.role]}`], ["Conflicts", "None detected"], ["Affected sessions", user.sessions], ["Reason", assignment.reason]], confirmLabel: "Add assignment", ticket: "P01-T09", onConfirm: () => { const item = document.createElement("div"); item.className = "assignment-item"; item.innerHTML = `<span><strong>${escapeHtml(assignment.role)} / ${escapeHtml(assignment.scope)}</strong><span>Source: direct exception / expires ${escapeHtml(assignment.expiry || "No expiry")} / ${escapeHtml(assignment.reason)}</span></span><span class="status warning">Direct</span>`; document.getElementById("user-detail-assignments").appendChild(item); document.getElementById("assignment-editor").hidden = true; invalidateAssignmentPreview(); showToast("Scoped access exception saved", "The assignment is active only within the selected scope and is included in access review."); } });
+            const impact = assignmentPreviewImpact;
+            requestConfirmation({ title: "Add direct access exception", description: "This assignment supplements group-derived access and will be included in access review.", items: [["User", user.name], ["Role and scope", `${assignment.role} / ${assignment.scope}`], ["Current source", user.groups], ["Access owner", "Alex Morgan"], ["Starts / expires", `Now / ${assignment.expiry || "No expiry"}`], ["Before", impact.before], ["After", impact.after], ["Permission delta", impact.delta], ["Conflicts", impact.conflicts], ["Affected sessions", impact.sessions], ["Reason", assignment.reason]], confirmLabel: "Add assignment", ticket: "P01-T09", onConfirm: () => { const item = document.createElement("div"); item.className = "assignment-item"; item.innerHTML = `<span><strong>${escapeHtml(assignment.role)} / ${escapeHtml(assignment.scope)}</strong><span>Source: direct exception / expires ${escapeHtml(assignment.expiry || "No expiry")} / ${escapeHtml(assignment.reason)}</span></span><span class="status warning">Direct</span>`; document.getElementById("user-detail-assignments").appendChild(item); document.getElementById("assignment-editor").hidden = true; invalidateAssignmentPreview(); showToast("Scoped access exception saved", "The assignment is active only within the selected scope and is included in access review."); } });
         });
 
         document.getElementById("revoke-user-sessions").addEventListener("click", () => {
@@ -6429,6 +6493,15 @@ spec:
             item.addEventListener("click", () => showToast(item.dataset.toast));
         });
 
+        mutationControlIds.forEach((id) => document.getElementById(id)?.setAttribute("data-mutation-action", "true"));
+        document.addEventListener("click", (event) => {
+            const mutation = event.target.closest("[data-mutation-action]");
+            if (!mutation || !mutationBlockedByFixture()) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            showToast("Action blocked by current state", "Resolve or clear the degraded evidence state before attempting a mutation.");
+        }, true);
+
         ticketInspectorToggle.addEventListener("click", () => setTicketInspector(!ticketInspectorEnabled));
         document.getElementById("ticket-inspector-close").addEventListener("click", () => {
             setTicketInspector(false);
@@ -6436,6 +6509,10 @@ spec:
         });
         document.getElementById("state-fixture").addEventListener("change", (event) => {
             stateFixtureMode = event.currentTarget.value;
+            if (stateFixtureMode === "purged" && currentView !== "offline") {
+                openView("offline", false);
+                return;
+            }
             applyStateFixture(stateFixtureMode);
         });
 
@@ -6473,6 +6550,19 @@ spec:
         window.addEventListener("popstate", () => openRouteFromLocation(false));
 
         document.addEventListener("keydown", (event) => {
+            if (event.key === "Tab" && mobileNavigationQuery.matches && sidebar.classList.contains("open")) {
+                const focusable = [...sidebar.querySelectorAll('a[href], button:not(:disabled), [tabindex]:not([tabindex="-1"])')];
+                if (!focusable.length) return;
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (event.shiftKey && document.activeElement === first) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                    event.preventDefault();
+                    first.focus();
+                }
+            }
             if (event.key === "Escape") {
                 closeSidebar(true);
                 if (ticketInspectorEnabled) {
@@ -6557,6 +6647,7 @@ spec:
         });
 
         document.getElementById("resolve-plan-blocker").addEventListener("click", () => {
+            if (mutationBlockedByFixture()) return;
             resolvedPlanBlockers.add(selectedProjectKey);
             planState = { blocked: false, stale: false, approved: false };
             updatePlanState();

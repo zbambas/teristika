@@ -50,6 +50,14 @@ Every story and task uses [`ISSUE_TEMPLATE.md`](ISSUE_TEMPLATE.md):
 
 Stories use the same structure as tasks. Their work lists phase capabilities, and their evidence aggregates completed child tasks and the phase exit demonstration.
 
+## Mockup Traceability Contract
+
+- [`mockups/jira-project-deployer.html`](../mockups/jira-project-deployer.html) is the canonical visual, interaction, responsive, accessibility, and state contract for task-owned UI until an approved ticket and architecture update supersede it.
+- A `data-ticket="Pxx-Tyy"` value maps that rendered surface to its owning task. Developer implements the mapped behavior and Senior QA verifies it at desktop and mobile sizes, including keyboard, focus, loading, empty, partial, error, stale, permission, and destructive states that apply to the task.
+- Product data and safety decisions shown in the prototype must be backed by Django domain state, named URLs, forms or HTMX requests, server-side authorization, and server-side validation; client-side prototype guards are not sufficient implementation evidence.
+- Ticket hover labels and the delivery-ticket inspector are prototype traceability aids. They help find ownership but are not shipped in the production application unless a task explicitly requires them.
+- If a ticket, governing document, and mockup disagree, stop the task and ask Solution Manager to resolve and record the contract change before implementation continues.
+
 ## Phases
 
 | Phase | Story | Goal |

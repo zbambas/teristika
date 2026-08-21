@@ -25,7 +25,7 @@ The repository is in product discovery and solution architecture. The current de
 - [Implementation issues](backlog/README.md): phased stories, deterministic tasks, issue template, and agent workflow.
 - [Common prompts](docs/common-prompts.md): copy-ready prompts for delivery, specialist reviews, verification, and reporting.
 - [Troubleshooting prompts](docs/troubleshooting-prompts.md): diagnosis and recovery prompts for the Django, PostgreSQL, Celery, Redis, HTMX, DRF, Jira, and blueprint stack.
-- [Interactive UI mockup](mockups/jira-project-deployer.html): standalone single-page prototype with backlog-ticket hover mapping.
+- [Interactive UI mockup](mockups/jira-project-deployer.html): standalone responsive prototype and canonical interaction contract, with developer-only backlog-ticket hover and inspection mappings.
 - [Solution Manager agent](.github/agents/solution-manager.agent.md): user-facing orchestrator for the Developer and QA tandem.
 - [Senior UX Specialist](.github/agents/senior-ux-specialist.agent.md): read-only UX reviewer using the expert-method framework below.
 - [Example blueprint](blueprints/examples/erste-project.yaml): representative Requirement, Test, and Defect project subset.
